@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'process_cube.apps.ProcessCubeConfig'
+    'process_cube.apps.ProcessCubeConfig',
+    'event_log.apps.EventLogConfig',
+    'import_xes.apps.ImportXesConfig',
+    'process_cube_view.apps.ProcessCubeViewConfig'
 ]
 
 MIDDLEWARE = [

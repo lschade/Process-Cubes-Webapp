@@ -18,6 +18,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('process_cube.urls')),
-    path('', include('import_xes.urls')),
+    path('cube_structure/', include('process_cube.urls')),
+    path('import/', include('import_xes.urls')),
+    path('eventlog/', include('event_log.urls')),
+    path('cube_view/', include('process_cube_view.urls'))
 ]

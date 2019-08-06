@@ -1,0 +1,6 @@
+django
+pm4py
+djangorestframework
+markdown
+django-filter
+pymongo

@@ -1,11 +1,37 @@
-from django.shortcuts import render
-from process_cube.serializers import EventLogSerializer, ProcessCubeSerializer, DimensionSerializer, AttributeSerializer
-from process_cube.models import EventLog, ProcessCube, Dimension, Attribute, DimensionAttribute
-from rest_framework import viewsets, status
+from process_cube.serializers import ProcessCubeStructureSerializer, DimensionSerializer, DimensionAttributeSerializer
+from process_cube.models import ProcessCubeStructure, Dimension, DimensionAttribute
 
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
-# Create your views here.
+
+
+class GetSerializerClassMixin(object):
+    # https://medium.com/aubergine-solutions/decide-serializer-class-dynamically-based-on-viewset-actions-in-django-rest-framework-drf-fb6bb1246af2
+
+    def get_serializer_class(self):
+        """
+        A class which inhertis this mixins should have variable
+        `serializer_action_classes`.
+        Look for serializer class in self.serializer_action_classes, which
+        should be a dict mapping action name (key) to serializer class (value),
+        i.e.:
+        class SampleViewSet(viewsets.ViewSet):
+            serializer_class = DocumentSerializer
+            serializer_action_classes = {
+               'upload': UploadDocumentSerializer,
+               'download': DownloadDocumentSerializer,
+            }
+            @action
+            def upload:
+                ...
+        If there's no entry for that action then just fallback to the regular
+        get_serializer_class lookup: self.serializer_class, DefaultSerializer.
+        """
+        try:
+            return self.serializer_action_classes[self.action]
+        except (KeyError, AttributeError):
+            return super().get_serializer_class()
 
 
 def update_name(self, request, pk=None):
@@ -18,57 +44,59 @@ def update_name(self, request, pk=None):
     return Response({'status': 'name set', 'new_name': name})
 
 
-class EventLogViewSet(viewsets.ModelViewSet):
-    queryset = EventLog.objects.all()
-    serializer_class = EventLogSerializer
-
-    @action(detail=True, methods=['put'], name="Change name")
-    def set_name(self, request, pk=None):
-        return update_name(self, request, pk)
-
-
 class ProcessCubeViewSet(viewsets.ModelViewSet):
-    queryset = ProcessCube.objects.all()
-    serializer_class = ProcessCubeSerializer
+    queryset = ProcessCubeStructure.objects.all()
+    serializer_class = ProcessCubeStructureSerializer
 
     @action(detail=True, methods=['put'], name="Change name")
     def set_name(self, request, pk=None):
         return update_name(self, request, pk)
 
 
-class DimensionViewSet(viewsets.ModelViewSet):
+class DimensionViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
     queryset = Dimension.objects.all()
     serializer_class = DimensionSerializer
 
+    serializer_action_classes = {
+        'attributes': DimensionAttributeSerializer
+    }
+
     @action(detail=True, methods=['put'], name="Change name")
     def set_name(self, request, pk=None):
         return update_name(self, request, pk)
 
-    @action(detail=True, methods=['post'], name="Add Attribute")
-    def add_attribute(self, request, pk=None):
+    @action(detail=True, methods=['get', 'post', 'delete'], name="Add Attribute")
+    def attributes(self, request, pk=None):
         dimension = self.get_object()
+        serializer_context = {
+            'request': request,
+        }
 
-        attr_id = request.data['attr_id']
-        case_level = request.data['case_level']
-        try:
-            attribute = Attribute.objects.get(pk=attr_id)
-        except:
-            return Response({'status': "attribute not found"}, status=status.HTTP_400_BAD_REQUEST)
+        if(request.method == 'GET'):
+            serializer = DimensionAttributeSerializer(dimension.attributes.all(), many=True, context=serializer_context)
+            return Response(serializer.data)
 
-        DimensionAttribute.objects.create(dimension=dimension, attribute=attribute, case_level=case_level)
-        return Response({'status': 'added attribute'})
+        elif(request.method == 'POST'):
+            attr_name = request.POST.get('name')
+            case_level = request.POST.get('case_level')
+            case_level = case_level is True or case_level == 'true' or case_level == 'True'
+            dtype = request.POST.get('dtype')
+
+            try:
+                DimensionAttribute.objects.create(dimension=dimension, dtype=dtype, name=attr_name)
+            except Exception as e:
+                return Response({'status': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        elif(request.method == "DELETE"):
+            attr_id = request.data['attribute']
+            try:
+                DimensionAttribute.objects.get(pk=attr_id).delete()
+            except Exception as e:
+                return Response({'status': e.message}, status=status.HTTP_400_BAD_REQUEST)
+
+        dimension = Dimension.objects.get(pk=pk)
+        serializer = DimensionSerializer(dimension, context=serializer_context)
+    
+        return Response(serializer.data)
 
 
-class AttributeViewSet(viewsets.ModelViewSet):
-    queryset = Attribute.objects.all()
-    serializer_class = AttributeSerializer
-
-    @action(detail=True, methods=['put'], name="Change name")
-    def set_name(self, request, pk=None):
-        return update_name(self, request, pk)
-
-    @action(detail=True, methods=['get'], name="Get values")
-    def values(self, request, pk=None):
-        values = self.get_object().values.all()
-        values = [v.value for v in values]
-        return Response({'values': values})

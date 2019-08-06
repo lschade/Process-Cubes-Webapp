@@ -15,11 +15,25 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
+
+from process_cube_view import views as pcv_views
+from process_cube import views as pcs_views
+from event_log import views as log_views
+
+router = routers.DefaultRouter()
+router.register(r'pcv', pcv_views.ProcessCubeViewViewSet)
+router.register(r'visible_dimensions', pcv_views.VisibleDimensionViewSet)
+router.register(r'mapping', pcv_views.MappingViewSet)
+
+router.register(r'pcs', pcs_views.ProcessCubeViewSet)
+router.register(r'dimensions', pcs_views.DimensionViewSet)
+
+router.register(r'log_attributes', log_views.EventLogAttributeViewSet)
+router.register(r'eventlogs', log_views.EventLogViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('cube_structure/', include('process_cube.urls')),
-    path('import/', include('import_xes.urls')),
-    path('eventlog/', include('event_log.urls')),
-    path('cube_view/', include('process_cube_view.urls'))
+    path('api/', include(router.urls)),
 ]

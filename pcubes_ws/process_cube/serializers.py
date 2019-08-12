@@ -2,22 +2,13 @@ from rest_framework import serializers
 from process_cube.models import ProcessCubeStructure, Dimension, DimensionAttribute
 
 
-class ProcessCubeStructureSerializer(serializers.HyperlinkedModelSerializer):
-    dimensions = serializers.HyperlinkedRelatedField(
-        many=True, read_only=True, view_name='dimension-detail')
-
-    class Meta:
-        model = ProcessCubeStructure
-        fields = ['id', 'name', 'dimensions']
-
-
 class DimensionAttributeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = DimensionAttribute
         fields = ['name', 'dtype']
 
 
-class DimensionSerializer(serializers.HyperlinkedModelSerializer):
+class DimensionSerializer(serializers.ModelSerializer):
     attributes = DimensionAttributeSerializer(many=True, read_only=False, default=[])
 
     class Meta:
@@ -41,4 +32,11 @@ class DimensionSerializer(serializers.HyperlinkedModelSerializer):
 
         return dimension
 
+
+class ProcessCubeStructureSerializer(serializers.ModelSerializer):
+    dimensions = DimensionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ProcessCubeStructure
+        fields = ['id', 'name', 'dimensions']
 

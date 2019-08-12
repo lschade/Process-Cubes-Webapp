@@ -21,7 +21,7 @@ class Mapping(models.Model):
     """
 
     class Meta:
-        unique_together = (('e_attribute', 'd_attribute', 'pcv'),)
+        unique_together = (('e_attribute', 'pcv'),)
 
     e_attribute = models.ForeignKey(to=EventLogAttribute, on_delete=models.CASCADE)
     d_attribute = models.ForeignKey(to=DimensionAttribute, on_delete=models.CASCADE)

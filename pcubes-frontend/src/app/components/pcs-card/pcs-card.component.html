@@ -1,0 +1,42 @@
+<div class="card my-3" style="width: 18rem;">
+  <div class="card-body">
+    <h3 class="card-title">
+      <a routerLink='pcs'>
+        {{ pcs.name }}
+      </a>
+
+    </h3>
+    <p *ngIf="pcs.dimensions.length > 0">Dimensions:</p>
+    <ul class="list-group" *ngIf="pcs.dimensions.length > 0">
+      <li class="list-group-item" *ngFor="let dimension of pcs.dimensions">
+        {{ dimension.name }}
+        <!--        <ul class="list-group" *ngIf="dimension.attributes.length > 0">-->
+        <!--          <li class="list-group-item" *ngFor="let attribute of dimension.attributes">-->
+        <!--            {{ attribute.name }}: {{ attribute.dtype }}-->
+        <!--          </li>-->
+        <!--        </ul>-->
+        <!--        <i *ngIf="dimension.attributes.length == 0">No Attributes</i>-->
+      </li>
+    </ul>
+
+    <!--    <accordion [isAnimated]="true">-->
+    <!--      <accordion-group *ngFor="let dimension of pcs.dimensions" [heading]="dimension.name">-->
+    <!--        <ul *ngIf="dimension.attributes.length > 0">-->
+    <!--          <li *ngFor="let attribute of dimension.attributes">-->
+    <!--            {{ attribute.name }}: {{ attribute.dtype }}-->
+    <!--          </li>-->
+    <!--        </ul>-->
+    <!--        <i *ngIf="dimension.attributes.length == 0">No Attributes</i>-->
+    <!--      </accordion-group>-->
+    <!--    </accordion>-->
+
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-primary">Edit</button>
+    <button class="btn btn-danger float-right" onclick="alert('really?')">Delete</button>
+  </div>
+</div>
+
+
+
+

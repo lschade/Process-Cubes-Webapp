@@ -1,0 +1,14 @@
+<form (ngSubmit)="onSubmit()" #pcsForm="ngForm">
+  <div class="form-group">
+    <label for="nameInput">Name:</label>
+    <input class="form-control" type="text" id="nameInput" [(ngModel)]="name" name="name" #nameId="ngModel" required>
+    <div [hidden]="nameId.valid"
+         class="alert alert-danger">
+      Name is required
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="!pcsForm.form.valid">Submit</button>
+</form>
+
+

@@ -1,0 +1,15 @@
+.pcs_card {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
+  justify-items: center;
+  // padding: 2rem;
+  // margin: 2rem;
+  // width: 40rem;
+  // height: 20rem;
+  //cursor: pointer;
+  background-color: white;
+  border-radius: 1.75rem;
+  animation: 1.25s ease-in-out 0ms 1 fadein;
+}

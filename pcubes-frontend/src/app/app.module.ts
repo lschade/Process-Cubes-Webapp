@@ -15,6 +15,8 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PcsDetailComponent } from './pcs-detail/pcs-detail.component';
 import { PcsFormComponent } from './components/forms/pcs-form/pcs-form.component';
+import { DimensionComponent } from './components/dimension/dimension.component';
+import { AttributeComponent } from './components/attribute/attribute.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { PcsFormComponent } from './components/forms/pcs-form/pcs-form.component
     HomeComponent,
     PcsCardComponent,
     PcsDetailComponent,
-    PcsFormComponent
+    PcsFormComponent,
+    DimensionComponent,
+    AttributeComponent
   ],
   imports: [
     BrowserModule,

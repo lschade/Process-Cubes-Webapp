@@ -1,7 +1,7 @@
 <div class="container">
   <h2>Hello</h2>
   <div class="card-deck">
-    <app-pcs-card *ngFor="let pcs of pcss" [pcs]="pcs"></app-pcs-card>
+    <app-pcs-card *ngFor="let pcs of pcsService.pcss" [pcs]="pcs"></app-pcs-card>
 
   </div>
 

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 
 import {PCS} from '../../../models/pcs';
-import {DataService} from '../../../data.service';
 import {Router} from '@angular/router';
+import {PcsService} from '../../../pcs.service';
 
 @Component({
   selector: 'app-pcs-form',
@@ -13,17 +13,13 @@ export class PcsFormComponent implements OnInit {
 
   name = '';
 
-  constructor(private data: DataService,
+  constructor(private data: PcsService,
               private router: Router) {
   }
 
   onSubmit() {
     console.log(this.name);
-    this.data.createCubeStructure(this.name).subscribe(value => {
-      console.log(value);
-      this.router.navigate(['pcs']);
-    });
-
+    this.data.createCubeStructure(this.name).subscribe(value => console.log(value));
   }
 
   ngOnInit() {

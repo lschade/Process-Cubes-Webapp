@@ -5,7 +5,7 @@ import { PcsDetailComponent} from './pcs-detail/pcs-detail.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'pcs', component: PcsDetailComponent }
+  { path: 'pcs/:id', component: PcsDetailComponent }
 ];
 
 @NgModule({

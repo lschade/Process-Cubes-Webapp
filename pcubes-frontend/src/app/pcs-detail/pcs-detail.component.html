@@ -1,1 +1,24 @@
-<p>pcs-detail works!</p>
+<div *ngIf="pcs">
+  <h1>{{ pcs.name }}</h1>
+
+  <h2>Dimensions:</h2>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let dimension of pcs.dimensions">
+      <app-dimension [dimension]="dimension" [pcs]="pcs"></app-dimension>
+    </li>
+
+    <li class="list-group-item">
+      <h6>New Dimension</h6>
+      <form class="form-inline" (ngSubmit)="addDimension()" #pcsForm="ngForm">
+        <div class="form-group mx-sm-3">
+          <label for="dim_name" class="sr-only">Name</label>
+          <input class="form-control" type="text" placeholder="Name" id="dim_name" [(ngModel)]="newDimension.name" name="name" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="!pcsForm.form.valid">Add</button>
+      </form>
+    </li>
+  </ul>
+
+
+</div>

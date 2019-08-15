@@ -1,7 +1,7 @@
-<div class="card my-3" style="width: 18rem;">
+<div class="card my-3" style="width: 18rem;" [hidden]="deleted">
   <div class="card-body">
     <h3 class="card-title">
-      <a routerLink='pcs'>
+      <a routerLink='/pcs/{{pcs.id}}'>
         {{ pcs.name }}
       </a>
 
@@ -33,7 +33,7 @@
   </div>
   <div class="card-footer">
     <button class="btn btn-primary">Edit</button>
-    <button class="btn btn-danger float-right" onclick="alert('really?')">Delete</button>
+    <button class="btn btn-danger float-right" (click)="delete()">Delete</button>
   </div>
 </div>
 

@@ -20,6 +20,7 @@ router.register(r'mapping', pcv_views.MappingViewSet)
 
 router.register(r'pcs', pcs_views.ProcessCubeViewSet)
 router.register(r'dimensions', pcs_views.DimensionViewSet)
+router.register(r'dimension_attribute', pcs_views.DimensionAttributeViewSet)
 
 router.register(r'log_attributes', log_views.EventLogAttributeViewSet)
 router.register(r'eventlogs', log_views.EventLogViewSet)

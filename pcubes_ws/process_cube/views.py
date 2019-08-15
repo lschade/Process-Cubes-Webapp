@@ -77,13 +77,19 @@ class DimensionViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
             return Response(serializer.data)
 
         elif(request.method == 'POST'):
-            attr_name = request.POST.get('name')
-            case_level = request.POST.get('case_level')
-            case_level = case_level is True or case_level == 'true' or case_level == 'True'
-            dtype = request.POST.get('dtype')
+            attr_name = request.data.get('name')
+            dtype = request.data.get('dtype')
+
+            print(request.data)
+
+            print(attr_name)
+            print(dtype)
 
             try:
-                DimensionAttribute.objects.create(dimension=dimension, dtype=dtype, name=attr_name)
+                attr = DimensionAttribute.objects.create(dimension=dimension, dtype=dtype, name=attr_name)
+                print(attr.pk)
+                attr_serializer = DimensionAttributeSerializer(attr, context=serializer_context)
+                return Response(attr_serializer.data)
             except Exception as e:
                 return Response({'status': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -96,7 +102,14 @@ class DimensionViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
 
         dimension = Dimension.objects.get(pk=pk)
         serializer = DimensionSerializer(dimension, context=serializer_context)
-    
+
         return Response(serializer.data)
 
 
+class DimensionAttributeViewSet(viewsets.ModelViewSet):
+    queryset = DimensionAttribute.objects.all()
+    serializer_class = DimensionAttributeSerializer
+
+    @action(detail=True, methods=['put'], name="Change name")
+    def set_name(self, request, pk=None):
+        return update_name(self, request, pk)

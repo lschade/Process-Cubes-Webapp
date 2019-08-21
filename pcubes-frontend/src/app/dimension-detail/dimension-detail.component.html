@@ -1,0 +1,65 @@
+<div *ngIf="dimension">
+  <div class="row mb-5">
+    <div class="col">
+      <h1>Dimension: {{ dimension.name }}</h1>
+    </div>
+  </div>
+
+  <div class="list-group">
+    <h5>Attributes:</h5>
+    <li class="list-group-item" *ngFor="let attribute of dimension.attributes">
+      <app-attribute-detail [attribute]="attribute"></app-attribute-detail>
+    </li>
+    <li class="list-group-item">
+      <app-attribute-form [dimension]="dimension"></app-attribute-form>
+    </li>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <h2>Values:</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+          <th *ngFor="let attribute of dimension.attributes" scope="col">
+            {{attribute.name}}: {{attribute.dtype}}
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="elements.length === 0">
+          <td *ngFor="let attribute of dimension.attributes">
+            <i>any</i>
+          </td>
+        </tr>
+        <tr>
+          <td *ngFor="let attribute of dimension.attributes">
+            <form *ngIf="attribute.values.length > 0" (ngSubmit)="addElement()">
+              <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="values">
+                <option *ngFor="let value of attribute.values" [value]="value.id">
+                  <div *ngIf="attribute.dtype === 'date'">
+                    {{ value.start.toISOString() }} - {{ value.end.toISOString() }}
+                  </div>
+                  <div *ngIf="attribute.dtype === 'float'">
+                    {{ value.lower }} - {{ value.upper }}
+                  </div>
+                </option>
+              </select>
+            </form>
+            <p *ngIf="attribute.values.length === 0">Any</p>
+          </td>
+        </tr>
+        <tr>
+          <td [colSpan]="dimension.attributes.length">
+            <button class="btn btn-primary" (click)="addElement()">Add element</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

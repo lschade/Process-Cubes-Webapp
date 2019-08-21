@@ -1,0 +1,28 @@
+<form class="form-inline" (ngSubmit)="submit()" #form="ngForm">
+  <div class="col">
+    <input
+      style="width: 100%"
+      class="form-control"
+      bsDatepicker
+      placeholder="Start"
+      [bsConfig]="{ dateInputFormat: 'MMMM Do YYYY, h:mm:ss a' }"
+      [(ngModel)]="dateStart"
+      name="dateStart"
+      required>
+  </div>
+  <div class="col">
+    <input
+      style="width: 100%"
+      class="form-control"
+      bsDatepicker
+      placeholder="End"
+      [bsConfig]="{ dateInputFormat: 'MMMM Do YYYY, h:mm:ss a' }"
+      [(ngModel)]="dateEnd"
+      name="dateEnd"
+      required>
+  </div>
+
+  <div class="col-xs">
+    <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Add</button>
+  </div>
+</form>

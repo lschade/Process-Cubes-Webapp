@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.pcsService.getAllPCS().subscribe(value => this.pcss = value);
+    console.log('init');
   }
 
 }

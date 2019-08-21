@@ -1,0 +1,30 @@
+<div class="row align-items-center">
+  <div class="col">
+    {{ attribute.name }}: {{ attribute.dtype }}
+  </div>
+  <div class="col">
+    <button class="btn btn-info float-right" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+            aria-controls="collapseBasic">Define values
+    </button>
+  </div>
+
+
+</div>
+<div class="row">
+  <div class="col col-md-12">
+    <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" class="py-1">
+      <ul class="list-group border">
+        <li class="list-group-item">
+          <app-vgroup-categorical-form  [attribute]="attribute" *ngIf="attribute.dtype === 'str'"></app-vgroup-categorical-form>
+          <app-vgroup-number-form [attribute]="attribute" *ngIf="attribute.dtype === 'float'"></app-vgroup-number-form>
+          <app-vgroup-date-form [attribute]="attribute" *ngIf="attribute.dtype === 'date'"></app-vgroup-date-form>
+        </li>
+        <li class="list-group-item" *ngFor="let value of attribute.values">
+          <app-vgroup-date [value]="value" *ngIf="attribute.dtype === 'date'"></app-vgroup-date>
+          <app-vgroup-number [value]="value" *ngIf="attribute.dtype === 'float'"></app-vgroup-number>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+

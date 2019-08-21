@@ -1,0 +1,20 @@
+<form class="form-inline" (ngSubmit)="addAttribute()" #attrForm="ngForm">
+  <div class="form-group">
+    <label for="attr_name" class="sr-only">Attribute name</label>
+    <input type="text" class="form-control" id="attr_name" placeholder="Name"
+           [(ngModel)]="newAttribute.name"
+           name="name" required>
+  </div>
+
+  <div class="form-group mx-sm-3">
+    <select class="form-control" id="dtype_select" [(ngModel)]="newAttribute.dtype" name="dtype"
+            required>
+      <option value="str">String</option>
+      <option value="float">Number</option>
+      <option value="date">Date</option>
+      <option value="bool">Boolean</option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="attrForm.invalid">Add Attribute</button>
+</form>

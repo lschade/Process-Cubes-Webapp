@@ -17,20 +17,13 @@ export class DimensionComponent implements OnInit {
   @Input()
   pcs: PCS;
 
-  newAttribute: DimensionAttribute = new DimensionAttribute('', '');
-
   constructor(private pcsService: PcsService) {
   }
 
   ngOnInit() {
   }
 
-  addAttribute() {
-    this.pcsService.addAttribute(this.dimension, this.newAttribute).subscribe(value => {
-      this.dimension.attributes.push(value);
-      this.newAttribute = new DimensionAttribute('', '');
-    });
-  }
+
 
   delete() {
     this.pcsService.deleteDimension(this.dimension).subscribe(value => {

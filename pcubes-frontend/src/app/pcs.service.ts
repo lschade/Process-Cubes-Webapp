@@ -1,9 +1,11 @@
 import {Injectable, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {PCS} from './models/pcs';
-import {Observable, Subject} from 'rxjs';
+import {ObjectUnsubscribedError, Observable, Subject} from 'rxjs';
 import {DimensionAttribute} from './models/dimension-attribute';
 import {Dimension} from './models/dimension';
+import {VgroupDate} from './dimension-detail/attribute-detail/vgroup-date-form/vgroup-date';
+import {VgroupNumber} from './dimension-detail/attribute-detail/vgroup-number-form/vgroup-number';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +19,14 @@ export class PcsService {
   }
 
   getAllPCS(): Observable<PCS[]> {
-    return this.http.get<PCS[]>('/api/pcs/');
+    const observable = this.http.get<PCS[]>('/api/pcs/');
+    const obSubject = new Subject<PCS[]>();
+    observable.subscribe(value => {
+      this.pcss = value;
+      obSubject.next(value);
+    });
+
+    return obSubject.asObservable();
   }
 
   getPCS(id: number): Observable<PCS> {
@@ -53,6 +62,37 @@ export class PcsService {
 
   deleteAttribute(dimension: Dimension, attribute: DimensionAttribute) {
     return this.http.delete(`/api/dimension_attribute/${attribute.id}/`);
+  }
+
+  getDimension(id: number) {
+    return this.http.get<Dimension>(`/api/dimensions/${id}`);
+  }
+
+  addValueGroupDate(vgroup: VgroupDate): Observable<VgroupDate> {
+
+    console.log(vgroup.start.toString());
+    console.log(vgroup.start.toDateString());
+    console.log(vgroup.start.toISOString());
+    console.log(vgroup.start.toTimeString());
+
+
+    return this.http.post<VgroupDate>('/api/vgroup_date/', {
+      attribute: vgroup.attribute.id,
+      start: vgroup.start.toISOString(),
+      end: vgroup.end.toISOString()
+    });
+  }
+
+  addValueGroupNumber(vgroup: VgroupNumber): Observable<VgroupNumber> {
+    return this.http.post<VgroupNumber>('/api/vgroup_number/', {
+      attribute: vgroup.attribute.id,
+      upper: vgroup.upper,
+      lower: vgroup.lower
+    });
+  }
+
+  addDimensionElement(dimension: Dimension, values: number[]) {
+    return this.http.post('/api/dimension_element', {dimension: dimension.id, values});
   }
 }
 

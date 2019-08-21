@@ -1,5 +1,5 @@
-<div class="card my-3" style="width: 18rem;" [hidden]="deleted">
-  <div class="card-body">
+<div class="card my-3 bg-light border" style="width: 18rem" [hidden]="deleted">
+  <a class="card-body" routerLink="/pcs/{{pcs.id}}">
     <h3 class="card-title">
       <a routerLink='/pcs/{{pcs.id}}'>
         {{ pcs.name }}
@@ -30,13 +30,23 @@
     <!--      </accordion-group>-->
     <!--    </accordion>-->
 
-  </div>
+  </a>
   <div class="card-footer">
-    <button class="btn btn-primary">Edit</button>
-    <button class="btn btn-danger float-right" (click)="delete()">Delete</button>
+    <button class="btn btn-danger float-right" (click)="openModal(template)" style="z-index: 99;">Delete</button>
   </div>
 </div>
 
 
-
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Delete PCS</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Are you sure?
+    <button class="btn btn-danger float-right" (click)="delete(); modalRef.hide()" style="z-index: 99;">Delete</button>
+  </div>
+</ng-template>
 

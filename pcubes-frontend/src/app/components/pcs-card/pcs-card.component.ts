@@ -1,8 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, TemplateRef} from '@angular/core';
 import {PCS} from '../../models/pcs';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {PcsService} from '../../pcs.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-pcs-card',
@@ -16,9 +17,12 @@ export class PcsCardComponent implements OnInit {
 
   deleted = false;
 
+  modalRef: BsModalRef;
+
   constructor(private http: HttpClient,
               private router: Router,
-              private pcsService: PcsService) {
+              private pcsService: PcsService,
+              private modalService: BsModalService) {
   }
 
   ngOnInit() {
@@ -35,6 +39,10 @@ export class PcsCardComponent implements OnInit {
       error => {
         console.log(error);
       });
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 
 }

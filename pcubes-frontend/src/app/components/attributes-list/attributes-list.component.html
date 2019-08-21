@@ -1,0 +1,11 @@
+<h6>Attributes:</h6>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let attribute of dimension.attributes">
+    <app-attribute [attribute]="attribute" [dimension]="dimension"></app-attribute>
+  </li>
+  <li class="list-group-item">
+    <h6>New Attribute:</h6>
+    <app-attribute-form [dimension]="dimension"></app-attribute-form>
+  </li>
+</ul>
+

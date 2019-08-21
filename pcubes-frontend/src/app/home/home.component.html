@@ -1,16 +1,14 @@
-<div class="container">
-  <h2>Hello</h2>
-  <div class="card-deck">
-    <app-pcs-card *ngFor="let pcs of pcsService.pcss" [pcs]="pcs"></app-pcs-card>
+<div class="card-deck">
+  <app-pcs-card *ngFor="let pcs of pcss" [pcs]="pcs"></app-pcs-card>
 
+</div>
+
+<div class="card-form">
+  <div class="card-header">
+    <h5 class="card-title">New PCS</h5>
   </div>
-
-  <div class="card">
-    <div class="card-header">
-      <h5 class="card-title">New PCS</h5>
-    </div>
-    <div class="card-body">
-      <app-pcs-form></app-pcs-form>
-    </div>
+  <div class="card-body">
+    <app-pcs-form></app-pcs-form>
   </div>
 </div>
+

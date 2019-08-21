@@ -1,5 +1,9 @@
-from process_cube.serializers import ProcessCubeStructureSerializer, DimensionSerializer, DimensionAttributeSerializer
-from process_cube.models import ProcessCubeStructure, Dimension, DimensionAttribute
+from process_cube.serializers import ProcessCubeStructureSerializer, DimensionSerializer, DimensionAttributeSerializer, DimensionElementSerializer
+from process_cube.serializers import ValueGroupDateSerializer, ValueGroupSerializer, ValueGroupCategoricalElementSerializer, \
+    ValueGroupNumberSerializer, ValueGroupCategoricalSerializer
+
+from process_cube.models import ProcessCubeStructure, Dimension, DimensionAttribute, DimensionElement
+from process_cube.models import ValueGroupNumber, ValueGroupDate, ValueGroup, ValueGroupCategoricalElement, ValueGroupCategorical
 
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -72,11 +76,11 @@ class DimensionViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
             'request': request,
         }
 
-        if(request.method == 'GET'):
+        if (request.method == 'GET'):
             serializer = DimensionAttributeSerializer(dimension.attributes.all(), many=True, context=serializer_context)
             return Response(serializer.data)
 
-        elif(request.method == 'POST'):
+        elif (request.method == 'POST'):
             attr_name = request.data.get('name')
             dtype = request.data.get('dtype')
 
@@ -93,7 +97,7 @@ class DimensionViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
             except Exception as e:
                 return Response({'status': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-        elif(request.method == "DELETE"):
+        elif (request.method == "DELETE"):
             attr_id = request.data['attribute']
             try:
                 DimensionAttribute.objects.get(pk=attr_id).delete()
@@ -113,3 +117,66 @@ class DimensionAttributeViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['put'], name="Change name")
     def set_name(self, request, pk=None):
         return update_name(self, request, pk)
+
+    @action(detail=True, methods=['get'], name="Values")
+    def values(self, request, pk=None):
+        serializer_context = {
+            'request': request,
+        }
+
+        values = self.get_object().values.all()
+        serializer = ValueGroupSerializer(values, many=True, context=serializer_context)
+        return Response(serializer.data)
+
+
+class ValueGroupDateViewSet(viewsets.ModelViewSet):
+    queryset = ValueGroupDate.objects.all()
+    serializer_class = ValueGroupDateSerializer
+
+
+class ValueGroupNumberViewSet(viewsets.ModelViewSet):
+    queryset = ValueGroupNumber.objects.all()
+    serializer_class = ValueGroupNumberSerializer
+
+
+class ValueGroupCategoricalViewSet(viewsets.ModelViewSet):
+    queryset = ValueGroupCategorical.objects.all()
+    serializer_class = ValueGroupCategoricalSerializer
+
+
+class ValueGroupCategoricalElementViewSet(viewsets.ModelViewSet):
+    queryset = ValueGroupCategoricalElement.objects.all()
+    serializer_class = ValueGroupCategoricalElementSerializer
+
+
+class ValueGroupViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = ValueGroup.objects.all()
+    serializer_class = ValueGroupSerializer
+
+
+class DimensionElementViewSet(viewsets.ModelViewSet):
+    queryset = DimensionElement.objects.all()
+    serializer_class = DimensionElementSerializer
+
+    @action(detail=True, methods=['get', 'post', 'delete'], name="Values")
+    def values(self, request, pk=None):
+        dimension_element = self.get_object()
+        serializer_context = {
+            'request': request,
+        }
+
+        if request.method == 'GET':
+            pass
+        elif request.method == 'POST':
+            vgroup_id = request.data.get('value_group')
+            vgroup = ValueGroup.objects.get(pk=vgroup_id)
+
+            dimension_element.values.add(vgroup)
+            dimension_element.save()
+        elif request.method == 'DELETE':
+            vgroup_id = request.data.get('value_group')
+            vgroup = ValueGroup.objects.get(pk=vgroup_id)
+            dimension_element.values.remove(vgroup)
+
+        serializer = ValueGroupSerializer(dimension_element.values.all(), many=True, context=serializer_context)
+        return Response(serializer.data)

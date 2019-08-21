@@ -17,22 +17,12 @@ class DimensionAttribute(models.Model):
     dtype = models.CharField(max_length=255)
 
 
-class DimensionElement(models.Model):
-    """
-    Value-set: One element of a Dimension
-    """
-    dimension = models.ForeignKey(to=DimensionAttribute, on_delete=models.CASCADE, related_name='elements')
-
-
 class ValueGroup(models.Model):
     """
+    kind of 'abstract': should always come along with an element that overrides ValueGroup
     group attribute values
     """
-    class Meta:
-        unique_together = (('attribute', 'd_element'),)
-
-    attribute = models.ForeignKey(to=DimensionAttribute, on_delete=models.CASCADE)
-    d_element = models.ForeignKey(to=DimensionElement, on_delete=models.CASCADE)
+    attribute = models.ForeignKey(to=DimensionAttribute, on_delete=models.CASCADE, related_name="values")
 
 
 class ValueGroupDate(ValueGroup):
@@ -41,7 +31,7 @@ class ValueGroupDate(ValueGroup):
     """
     start = models.DateTimeField()
     end = models.DateTimeField()
-    group = models.OneToOneField(to=ValueGroup, on_delete=models.CASCADE, parent_link=True)
+    group = models.OneToOneField(to=ValueGroup, on_delete=models.CASCADE, parent_link=True, primary_key=True, related_name='valuegroupdate')
 
 
 class ValueGroupNumber(ValueGroup):
@@ -50,15 +40,14 @@ class ValueGroupNumber(ValueGroup):
     """
     lower = models.FloatField()
     upper = models.FloatField()
-    group = models.OneToOneField(to=ValueGroup, on_delete=models.CASCADE, parent_link=True)
+    group = models.OneToOneField(to=ValueGroup, on_delete=models.CASCADE, parent_link=True, primary_key=True, related_name='valuegroupnumber')
 
 
 class ValueGroupCategorical(ValueGroup):
     """
     Categorical Group: Categorical values can be grouped to one ValueGroupCategorical
     """
-    dimension = models.ForeignKey(to=Dimension, on_delete=models.CASCADE)
-    group = models.OneToOneField(to=ValueGroup, on_delete=models.CASCADE, parent_link=True)
+    group = models.OneToOneField(to=ValueGroup, on_delete=models.CASCADE, parent_link=True, primary_key=True, related_name='valuegroupcategorical')
 
 
 class ValueGroupCategoricalElement(models.Model):
@@ -66,7 +55,18 @@ class ValueGroupCategoricalElement(models.Model):
     One value in the value-set of a CategoricalElement in a ValueGroupCategorical.
     """
     value = models.CharField(max_length=255)
-    vc_group = models.ForeignKey(to=ValueGroupCategorical, on_delete=models.CASCADE)
+    vc_group = models.ForeignKey(to=ValueGroupCategorical, on_delete=models.CASCADE, related_name='elements')
+
+    def __str__(self):
+        return self.value
+
+
+class DimensionElement(models.Model):
+    """
+    Value-set: One element of a Dimension
+    """
+    dimension = models.ForeignKey(to=Dimension, on_delete=models.CASCADE, related_name='elements')
+    values = models.ManyToManyField(to=ValueGroup)
 
 
 class DimensionElementGroup(models.Model):
@@ -82,5 +82,3 @@ class DimensionElementGroupElement(models.Model):
     """
     group = models.ForeignKey(to=DimensionElementGroup, on_delete=models.CASCADE)
     d_element = models.ForeignKey(to=DimensionElement, on_delete=models.CASCADE)
-
-

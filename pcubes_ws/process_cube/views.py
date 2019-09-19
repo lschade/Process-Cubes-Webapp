@@ -1,4 +1,5 @@
-from process_cube.serializers import ProcessCubeStructureSerializer, DimensionSerializer, DimensionAttributeSerializer, DimensionElementSerializer
+from process_cube.serializers import ProcessCubeStructureSerializer, DimensionSerializer, DimensionAttributeSerializer, DimensionElementSerializer, \
+    ProcessCubeStructureDetailSerializer, DimensionElementDetailedSerializer
 from process_cube.serializers import ValueGroupDateSerializer, ValueGroupSerializer, ValueGroupCategoricalElementSerializer, \
     ValueGroupNumberSerializer, ValueGroupCategoricalSerializer
 
@@ -12,6 +13,7 @@ from rest_framework.decorators import action
 
 class GetSerializerClassMixin(object):
     # https://medium.com/aubergine-solutions/decide-serializer-class-dynamically-based-on-viewset-actions-in-django-rest-framework-drf-fb6bb1246af2
+    # https://stackoverflow.com/a/22922156
 
     def get_serializer_class(self):
         """
@@ -33,6 +35,7 @@ class GetSerializerClassMixin(object):
         get_serializer_class lookup: self.serializer_class, DefaultSerializer.
         """
         try:
+            print(self.action)
             return self.serializer_action_classes[self.action]
         except (KeyError, AttributeError):
             return super().get_serializer_class()
@@ -48,9 +51,13 @@ def update_name(self, request, pk=None):
     return Response({'status': 'name set', 'new_name': name})
 
 
-class ProcessCubeViewSet(viewsets.ModelViewSet):
+class ProcessCubeViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
     queryset = ProcessCubeStructure.objects.all()
-    serializer_class = ProcessCubeStructureSerializer
+    serializer_class = ProcessCubeStructureDetailSerializer
+
+    serializer_action_classes = {
+        'list': ProcessCubeStructureSerializer,
+    }
 
     @action(detail=True, methods=['put'], name="Change name")
     def set_name(self, request, pk=None):
@@ -154,9 +161,13 @@ class ValueGroupViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ValueGroupSerializer
 
 
-class DimensionElementViewSet(viewsets.ModelViewSet):
+class DimensionElementViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
     queryset = DimensionElement.objects.all()
-    serializer_class = DimensionElementSerializer
+    serializer_class = DimensionElementDetailedSerializer
+
+    serializer_action_classes = {
+        'create': DimensionElementSerializer
+    }
 
     @action(detail=True, methods=['get', 'post', 'delete'], name="Values")
     def values(self, request, pk=None):
@@ -179,4 +190,26 @@ class DimensionElementViewSet(viewsets.ModelViewSet):
             dimension_element.values.remove(vgroup)
 
         serializer = ValueGroupSerializer(dimension_element.values.all(), many=True, context=serializer_context)
+        return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        serializer_context = {
+            'request': request,
+        }
+
+        dimension_id = request.data.get('dimension')
+        values_ids = request.data.get('values')
+
+        dimension = Dimension.objects.get(pk=dimension_id)
+        values = [ValueGroup.objects.get(pk=value_id) for value_id in values_ids]
+
+        attributes = {value.attribute.id for value in values}
+        if len(values) is not len(attributes):
+            return Response({'status': 'Multiple values for one attribute'}, status=status.HTTP_400_BAD_REQUEST)
+
+        element = DimensionElement.objects.create(dimension=dimension)
+        element.values.set(values)
+
+        serializer = DimensionElementDetailedSerializer(element, context=serializer_context)
+
         return Response(serializer.data)

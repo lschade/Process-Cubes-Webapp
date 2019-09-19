@@ -1,6 +1,17 @@
 from rest_framework import serializers
 from process_cube.models import ProcessCubeStructure, Dimension, DimensionAttribute, DimensionElement
-from process_cube.models import ValueGroup, ValueGroupCategorical, ValueGroupCategoricalElement, ValueGroupDate, ValueGroupNumber
+from process_cube.models import ValueGroup, ValueGroupCategorical, ValueGroupCategoricalElement, ValueGroupDate, \
+    ValueGroupNumber
+
+
+class EagerLoadingMixin:
+    @classmethod
+    def setup_eager_loading(cls, queryset):
+        if hasattr(cls, "_SELECT_RELATED_FIELDS"):
+            queryset = queryset.select_related(*cls._SELECT_RELATED_FIELDS)
+        if hasattr(cls, "_PREFETCH_RELATED_FIELDS"):
+            queryset = queryset.prefetch_related(*cls._PREFETCH_RELATED_FIELDS)
+        return queryset
 
 
 class ValueGroupDateSerializer(serializers.ModelSerializer):
@@ -98,13 +109,29 @@ class DimensionAttributeSerializer(serializers.ModelSerializer):
         return values
 
 
+class DimensionElementSerializer(serializers.ModelSerializer):
+    values = serializers.PrimaryKeyRelatedField(read_only=False, many=True, queryset=ValueGroup.objects.all())
+
+    class Meta:
+        model = DimensionElement
+        fields = ['id', 'dimension', 'values']
+
+
+class DimensionElementDetailedSerializer(serializers.ModelSerializer):
+    values = ValueGroupSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = DimensionElement
+        fields = ['id', 'dimension', 'values']
+
+
 class DimensionSerializer(serializers.ModelSerializer):
     attributes = DimensionAttributeSerializer(many=True, read_only=False, default=[])
-    # cube = serializers.PrimaryKeyRelatedField(queryset=ProcessCubeStructure.objects.all())
+    elements = DimensionElementDetailedSerializer(many=True, read_only=True)
 
     class Meta:
         model = Dimension
-        fields = ['id', 'name', 'cube', 'attributes']
+        fields = ['id', 'name', 'cube', 'attributes', 'elements']
 
     def create(self, validated_data):
         try:
@@ -124,8 +151,14 @@ class DimensionSerializer(serializers.ModelSerializer):
         return dimension
 
 
+class SimpleDimensionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dimension
+        fields = ['id', 'name']
+
+
 class ProcessCubeStructureSerializer(serializers.ModelSerializer):
-    dimensions = DimensionSerializer(many=True, read_only=True)
+    dimensions = SimpleDimensionSerializer(many=True, read_only=True)
 
     class Meta:
         model = ProcessCubeStructure
@@ -133,9 +166,9 @@ class ProcessCubeStructureSerializer(serializers.ModelSerializer):
         # depth = 1
 
 
-class DimensionElementSerializer(serializers.ModelSerializer):
-    values = serializers.PrimaryKeyRelatedField(read_only=False, many=True, queryset=ValueGroup.objects.all())
+class ProcessCubeStructureDetailSerializer(serializers.ModelSerializer):
+    dimensions = DimensionSerializer(many=True, read_only=True)
 
     class Meta:
-        model = DimensionElement
-        fields = ['id', 'dimension', 'values']
+        model = ProcessCubeStructure
+        fields = ['id', 'name', 'dimensions']

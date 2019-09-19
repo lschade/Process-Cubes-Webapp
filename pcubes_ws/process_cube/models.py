@@ -69,6 +69,15 @@ class DimensionElement(models.Model):
     values = models.ManyToManyField(to=ValueGroup)
 
 
+class DimensionElementElement(models.Model):
+    value_group = models.ForeignKey(to=ValueGroup, on_delete=models.CASCADE)
+    dimension_element = models.ForeignKey(to=DimensionElement, on_delete=models.CASCADE)
+    attribute = models.ForeignKey(to=DimensionAttribute, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('dimension_element', 'attribute',)
+
+
 class DimensionElementGroup(models.Model):
     """
     A group of DimensionElements

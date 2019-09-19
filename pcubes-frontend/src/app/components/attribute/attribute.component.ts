@@ -23,11 +23,11 @@ export class AttributeComponent implements OnInit {
   }
 
   delete() {
-    this.pcsService.deleteAttribute(this.dimension, this.attribute).subscribe(value => {
+    this.pcsService.deleteAttribute(this.attribute).subscribe(value => {
       const index = this.dimension.attributes.indexOf(this.attribute, 0);
       if (index > -1) {
         this.dimension.attributes.splice(index, 1);
       }
-    });
+    }, error => console.log(error));
   }
 }

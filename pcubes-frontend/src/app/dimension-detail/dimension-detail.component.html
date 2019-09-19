@@ -8,7 +8,7 @@
   <div class="list-group">
     <h5>Attributes:</h5>
     <li class="list-group-item" *ngFor="let attribute of dimension.attributes">
-      <app-attribute-detail [attribute]="attribute"></app-attribute-detail>
+      <app-attribute-detail [attribute]="attribute" (onDelete)="attributeDeleted($event)"></app-attribute-detail>
     </li>
     <li class="list-group-item">
       <app-attribute-form [dimension]="dimension"></app-attribute-form>

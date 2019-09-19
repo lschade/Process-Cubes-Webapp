@@ -61,7 +61,7 @@ export class PcsService {
     return this.http.delete(`/api/dimensions/${dimension.id}`);
   }
 
-  deleteAttribute(dimension: Dimension, attribute: DimensionAttribute) {
+  deleteAttribute(attribute: DimensionAttribute) {
     return this.http.delete(`/api/dimension_attribute/${attribute.id}/`);
   }
 

@@ -56,4 +56,11 @@ export class DimensionDetailComponent implements OnInit {
       this.elements.push(elementObj);
     });
   }
+
+  attributeDeleted(attribute: DimensionAttribute) {
+    const index = this.dimension.attributes.indexOf(attribute, 0);
+    if (index > -1) {
+      this.dimension.attributes.splice(index, 1);
+    }
+  }
 }

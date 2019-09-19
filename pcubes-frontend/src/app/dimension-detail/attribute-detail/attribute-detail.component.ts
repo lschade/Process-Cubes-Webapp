@@ -1,5 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DimensionAttribute} from '../../models/dimension-attribute';
+import {PcsService} from '../../pcs.service';
 
 @Component({
   selector: 'app-attribute-detail',
@@ -11,11 +12,20 @@ export class AttributeDetailComponent implements OnInit {
   @Input()
   attribute: DimensionAttribute;
 
+  @Output()
+  onDelete = new EventEmitter<DimensionAttribute>();
+
   isCollapsed = true;
 
-  constructor() { }
+  constructor(private pcsService: PcsService) {
+  }
 
   ngOnInit() {
   }
 
+  delete() {
+    this.pcsService.deleteAttribute(this.attribute).subscribe(
+      value => this.onDelete.emit(this.attribute), error => console.log(error)
+    );
+  }
 }

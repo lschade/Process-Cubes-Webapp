@@ -5,7 +5,7 @@
         <p style="font-size: 200%" class="font-weight-bold">{{ dimension.name }}</p>
       </div>
       <div class="col">
-        <button class="btn btn-info" routerLink="/pcs/{{ pcs.id }}/dimension/{{ dimension.id }}">Details</button>
+        <button class="btn btn-info" [routerLink]="['/pcs', pcs.id, 'dimension', dimension.id]" [state]="{dimension: dimension}" [fragment]="dimension">Details</button>
         <button class="btn btn-danger float-right" (click)="delete()">X</button>
       </div>
     </div>

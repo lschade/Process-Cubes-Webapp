@@ -36,10 +36,27 @@
             <i>any</i>
           </td>
         </tr>
+        <tr *ngFor="let element of elements">
+          <td *ngFor="let attribute of dimension.attributes">
+            <div *ngIf="element[attribute.id]; let value">
+              <div *ngIf="attribute.dtype === 'date'">
+                {{ value.start }} - {{ value.end }}
+              </div>
+              <div *ngIf="attribute.dtype === 'float'">
+                {{ value.lower }} - {{ value.upper }}
+              </div>
+            </div>
+
+            <p *ngIf="!element[attribute.id]">
+              <i>Any</i>
+            </p>
+          </td>
+        </tr>
         <tr>
           <td *ngFor="let attribute of dimension.attributes">
             <form *ngIf="attribute.values.length > 0" (ngSubmit)="addElement()">
-              <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="values">
+              <select class="form-control" [(ngModel)]="values[attribute.id]"
+                      [name]="attribute.name">
                 <option *ngFor="let value of attribute.values" [value]="value.id">
                   <div *ngIf="attribute.dtype === 'date'">
                     {{ value.start.toISOString() }} - {{ value.end.toISOString() }}

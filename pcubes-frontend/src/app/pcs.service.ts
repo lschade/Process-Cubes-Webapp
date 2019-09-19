@@ -6,6 +6,7 @@ import {DimensionAttribute} from './models/dimension-attribute';
 import {Dimension} from './models/dimension';
 import {VgroupDate} from './dimension-detail/attribute-detail/vgroup-date-form/vgroup-date';
 import {VgroupNumber} from './dimension-detail/attribute-detail/vgroup-number-form/vgroup-number';
+import {DimensionElement} from './dimension-detail/dimension-element';
 
 @Injectable({
   providedIn: 'root'
@@ -91,9 +92,10 @@ export class PcsService {
     });
   }
 
-  addDimensionElement(dimension: Dimension, values: number[]) {
-    return this.http.post('/api/dimension_element', {dimension: dimension.id, values});
+  addDimensionElement(dimension: Dimension, values: (string | number)[]) {
+    return this.http.post<DimensionElement>('/api/dimension_element/', {dimension: dimension.id, values});
   }
+
 }
 
 

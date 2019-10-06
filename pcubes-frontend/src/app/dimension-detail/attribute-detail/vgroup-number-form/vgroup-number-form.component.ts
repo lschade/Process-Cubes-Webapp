@@ -26,6 +26,8 @@ export class VgroupNumberFormComponent implements OnInit {
     const vgroup = new VgroupNumber(this.attribute, this.lower, this.upper);
     this.pcsService.addValueGroupNumber(vgroup).subscribe(value => {
       this.attribute.values.push(value);
+    }, error => {
+      console.log(error);
     });
   }
 

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PCS} from '../models/pcs';
-import {PcsService} from '../pcs.service';
+import {PcubeService} from '../pcube.service';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit {
 
   pcss: PCS[];
 
-  constructor(private pcsService: PcsService) {
+  constructor(private pcsService: PcubeService) {
   }
 
   ngOnInit() {

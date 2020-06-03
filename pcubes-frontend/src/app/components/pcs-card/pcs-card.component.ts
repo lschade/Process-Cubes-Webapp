@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {PcsService} from '../../pcs.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { PcubeService } from 'src/app/pcube.service';
 
 @Component({
   selector: 'app-pcs-card',
@@ -21,7 +22,7 @@ export class PcsCardComponent implements OnInit {
 
   constructor(private http: HttpClient,
               private router: Router,
-              private pcsService: PcsService,
+              private pcsService: PcubeService,
               private modalService: BsModalService) {
   }
 
@@ -30,10 +31,10 @@ export class PcsCardComponent implements OnInit {
 
   delete() {
     const pcs = this.pcs;
-    this.http.delete(`/api/pcs/${this.pcs.id}/`).subscribe(
+    console.log(pcs);
+    this.pcsService.deletePCS(pcs).subscribe(
       value => {
         console.log('delete successful');
-        this.pcsService.deletePCS(pcs.id);
         this.deleted = true;
       },
       error => {

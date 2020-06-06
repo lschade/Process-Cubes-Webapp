@@ -30,6 +30,8 @@ import {VgroupDateFormComponent} from './dimension-detail/attribute-detail/vgrou
 import {VgroupCategoricalFormComponent} from './dimension-detail/attribute-detail/vgroup-categorical-form/vgroup-categorical-form.component';
 import {VgroupDateComponent} from './dimension-detail/attribute-detail/vgroup-date/vgroup-date.component';
 import { VgroupNumberComponent } from './dimension-detail/attribute-detail/vgroup-number/vgroup-number.component';
+import { FileUploadFormComponent } from './components/forms/file-upload-form/file-upload-form.component';
+import { DimensionElementComponent } from './dimension-detail/dimension-element/dimension-element.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { VgroupNumberComponent } from './dimension-detail/attribute-detail/vgrou
     VgroupCategoricalFormComponent,
     VgroupDateFormComponent,
     VgroupDateComponent,
-    VgroupNumberComponent
+    VgroupNumberComponent,
+    FileUploadFormComponent,
+    DimensionElementComponent
   ],
   imports: [
     BrowserModule,

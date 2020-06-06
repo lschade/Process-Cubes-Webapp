@@ -1,10 +1,16 @@
-from process_cube.serializers import ProcessCubeStructureSerializer, DimensionSerializer, DimensionAttributeSerializer, DimensionElementSerializer, \
-    ProcessCubeStructureDetailSerializer, DimensionElementDetailedSerializer
-from process_cube.serializers import ValueGroupDateSerializer, ValueGroupSerializer, ValueGroupCategoricalElementSerializer, \
+from django.http import JsonResponse
+from django_auto_prefetching import AutoPrefetchViewSetMixin
+
+from process_cube.serializers import ProcessCubeStructureSerializer, DimensionSerializer, DimensionAttributeSerializer, \
+    DimensionElementSerializer, \
+    ProcessCubeStructureDetailSerializer
+from process_cube.serializers import ValueGroupDateSerializer, ValueGroupSerializer, \
+    ValueGroupCategoricalElementSerializer, \
     ValueGroupNumberSerializer, ValueGroupCategoricalSerializer
 
 from process_cube.models import ProcessCubeStructure, Dimension, DimensionAttribute, DimensionElement
-from process_cube.models import ValueGroupNumber, ValueGroupDate, ValueGroup, ValueGroupCategoricalElement, ValueGroupCategorical
+from process_cube.models import ValueGroupNumber, ValueGroupDate, ValueGroup, ValueGroupCategoricalElement, \
+    ValueGroupCategorical
 
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -35,7 +41,6 @@ class GetSerializerClassMixin(object):
         get_serializer_class lookup: self.serializer_class, DefaultSerializer.
         """
         try:
-            print(self.action)
             return self.serializer_action_classes[self.action]
         except (KeyError, AttributeError):
             return super().get_serializer_class()
@@ -51,7 +56,7 @@ def update_name(self, request, pk=None):
     return Response({'status': 'name set', 'new_name': name})
 
 
-class ProcessCubeViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
+class ProcessCubeViewSet(AutoPrefetchViewSetMixin, GetSerializerClassMixin, viewsets.ModelViewSet):
     queryset = ProcessCubeStructure.objects.all()
     serializer_class = ProcessCubeStructureDetailSerializer
 
@@ -83,28 +88,22 @@ class DimensionViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
             'request': request,
         }
 
-        if (request.method == 'GET'):
+        if request.method == 'GET':
             serializer = DimensionAttributeSerializer(dimension.attributes.all(), many=True, context=serializer_context)
             return Response(serializer.data)
 
-        elif (request.method == 'POST'):
+        elif request.method == 'POST':
             attr_name = request.data.get('name')
             dtype = request.data.get('dtype')
 
-            print(request.data)
-
-            print(attr_name)
-            print(dtype)
-
             try:
                 attr = DimensionAttribute.objects.create(dimension=dimension, dtype=dtype, name=attr_name)
-                print(attr.pk)
                 attr_serializer = DimensionAttributeSerializer(attr, context=serializer_context)
                 return Response(attr_serializer.data)
             except Exception as e:
                 return Response({'status': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-        elif (request.method == "DELETE"):
+        elif request.method == "DELETE":
             attr_id = request.data['attribute']
             try:
                 DimensionAttribute.objects.get(pk=attr_id).delete()
@@ -135,6 +134,14 @@ class DimensionAttributeViewSet(viewsets.ModelViewSet):
         serializer = ValueGroupSerializer(values, many=True, context=serializer_context)
         return Response(serializer.data)
 
+    def perform_destroy(self, instance):
+        super().perform_destroy(instance)
+
+        values = instance.values.all()
+        print(values)
+        d_elements = [d_elem for v in values for d_elem in v.value_set.all()]
+        print(d_elements)
+
 
 class ValueGroupDateViewSet(viewsets.ModelViewSet):
     queryset = ValueGroupDate.objects.all()
@@ -163,7 +170,7 @@ class ValueGroupViewSet(viewsets.ReadOnlyModelViewSet):
 
 class DimensionElementViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
     queryset = DimensionElement.objects.all()
-    serializer_class = DimensionElementDetailedSerializer
+    serializer_class = DimensionElementSerializer
 
     serializer_action_classes = {
         'create': DimensionElementSerializer
@@ -210,6 +217,6 @@ class DimensionElementViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
         element = DimensionElement.objects.create(dimension=dimension)
         element.values.set(values)
 
-        serializer = DimensionElementDetailedSerializer(element, context=serializer_context)
+        serializer = DimensionElementSerializer(element, context=serializer_context)
 
         return Response(serializer.data)

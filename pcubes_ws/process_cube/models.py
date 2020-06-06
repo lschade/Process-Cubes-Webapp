@@ -24,6 +24,19 @@ class ValueGroup(models.Model):
     """
     attribute = models.ForeignKey(to=DimensionAttribute, on_delete=models.CASCADE, related_name="values")
 
+    def get_impl(self):
+        if self.attribute.dtype == "date":
+            return self.valuegroupdate
+        elif self.attribute.dtype == "float":
+            return self.valuegroupnumber
+        else:
+            return self.valuegroupcategorical
+
+        return None
+
+    def serialize(self):
+        return {'err': 'not implemented'}
+
 
 class ValueGroupDate(ValueGroup):
     """
@@ -31,7 +44,15 @@ class ValueGroupDate(ValueGroup):
     """
     start = models.DateTimeField()
     end = models.DateTimeField()
-    group = models.OneToOneField(to=ValueGroup, on_delete=models.CASCADE, parent_link=True, primary_key=True, related_name='valuegroupdate')
+    group = models.OneToOneField(to=ValueGroup, on_delete=models.CASCADE, parent_link=True, primary_key=True,
+                                 related_name='valuegroupdate')
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'start': self.start,
+            'end': self.end,
+        }
 
 
 class ValueGroupNumber(ValueGroup):
@@ -40,14 +61,23 @@ class ValueGroupNumber(ValueGroup):
     """
     lower = models.FloatField()
     upper = models.FloatField()
-    group = models.OneToOneField(to=ValueGroup, on_delete=models.CASCADE, parent_link=True, primary_key=True, related_name='valuegroupnumber')
+    group = models.OneToOneField(to=ValueGroup, on_delete=models.CASCADE, parent_link=True, primary_key=True,
+                                 related_name='valuegroupnumber')
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'lower': self.lower,
+            'upper': self.upper,
+        }
 
 
 class ValueGroupCategorical(ValueGroup):
     """
     Categorical Group: Categorical values can be grouped to one ValueGroupCategorical
     """
-    group = models.OneToOneField(to=ValueGroup, on_delete=models.CASCADE, parent_link=True, primary_key=True, related_name='valuegroupcategorical')
+    group = models.OneToOneField(to=ValueGroup, on_delete=models.CASCADE, parent_link=True, primary_key=True,
+                                 related_name='valuegroupcategorical')
 
 
 class ValueGroupCategoricalElement(models.Model):

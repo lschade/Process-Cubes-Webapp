@@ -41,36 +41,29 @@ class ValueGroupCategoricalElementSerializer(serializers.ModelSerializer):
 
 
 class ValueGroupSerializer(serializers.ModelSerializer):
-    impl = serializers.SerializerMethodField()
-    dtype = serializers.SerializerMethodField()
+    # impl = serializers.SerializerMethodField()
+    # dtype = serializers.SerializerMethodField()
 
     class Meta:
         model = ValueGroup
-        fields = ['id', 'attribute', 'impl', 'dtype']
+        # fields = ['id', 'impl']
+        fields = ['id']
 
     def get_impl(self, obj):
-        try:
-            impl = obj.valuegroupdate
-            serializer = ValueGroupDateSerializer(impl)
-            return serializer.data
-        except ValueGroup.DoesNotExist:
-            pass
+        impl = obj.get_impl()
 
-        try:
-            impl = obj.valuegroupnumber
-            serializer = ValueGroupNumberSerializer(impl)
-            return serializer.data
-        except ValueGroup.DoesNotExist:
-            pass
+        if isinstance(impl, ValueGroupDate):
+            return {
+                'start': impl.start,
+                'end': impl.end,
+            }
+        elif isinstance(impl, ValueGroupNumber):
+            return {
+                'lower': impl.lower,
+                'upper': impl.upper
+            }
 
-        try:
-            impl = obj.valuegroupcategorical
-            serializer = ValueGroupCategoricalSerializer(impl)
-            return serializer.data
-        except ValueGroup.DoesNotExist:
-            pass
-
-        return ''
+        return {}
 
     def get_dtype(self, obj):
         try:
@@ -97,37 +90,38 @@ class ValueGroupSerializer(serializers.ModelSerializer):
 class DimensionAttributeSerializer(serializers.ModelSerializer):
     values = serializers.SerializerMethodField()
 
-    # values = ValueGroupSerializer(many=True, read_only=True)
+    # values = ValueGroupSerializer(read_only=True, many=True)
+    # values = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
 
     class Meta:
         model = DimensionAttribute
         fields = ['id', 'name', 'dtype', 'values']
+        # fields = ['id', 'name', 'dtype']
 
     def get_values(self, obj):
-        serializer = ValueGroupSerializer()
-        values = [serializer.get_impl(v) for v in obj.values.all()]
+        # serializer = ValueGroupSerializer(obj.values.all())
+        # values = [serializer.get_impl(v) for v in obj.values.all()]
+        values = [v.get_impl().serialize() for v in obj.values.all()]
+
         return values
 
 
 class DimensionElementSerializer(serializers.ModelSerializer):
-    values = serializers.PrimaryKeyRelatedField(read_only=False, many=True, queryset=ValueGroup.objects.all())
+    # values = serializers.PrimaryKeyRelatedField(read_only=False, many=True, queryset=ValueGroup.objects.all())
+    values = serializers.SerializerMethodField()
 
     class Meta:
         model = DimensionElement
         fields = ['id', 'dimension', 'values']
 
-
-class DimensionElementDetailedSerializer(serializers.ModelSerializer):
-    values = ValueGroupSerializer(read_only=True, many=True)
-
-    class Meta:
-        model = DimensionElement
-        fields = ['id', 'dimension', 'values']
+    def get_values(self, obj):
+        return {v.attribute.id: v.get_impl().serialize() for v in obj.values.all()}
 
 
 class DimensionSerializer(serializers.ModelSerializer):
     attributes = DimensionAttributeSerializer(many=True, read_only=False, default=[])
-    elements = DimensionElementDetailedSerializer(many=True, read_only=True)
+    elements = DimensionElementSerializer(many=True, read_only=True)
+    # elements = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Dimension
@@ -139,7 +133,6 @@ class DimensionSerializer(serializers.ModelSerializer):
         except:
             dim_attr_set = []
 
-        print(validated_data)
         dimension = Dimension.objects.create(**validated_data)
 
         for dim_attr in dim_attr_set:

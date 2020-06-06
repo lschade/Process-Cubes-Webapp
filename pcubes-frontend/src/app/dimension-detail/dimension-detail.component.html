@@ -28,17 +28,20 @@
           <th *ngFor="let attribute of dimension.attributes" scope="col">
             {{attribute.name}}: {{attribute.dtype}}
           </th>
+          <th>
+
+          </th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngIf="elements.length === 0">
+        <tr *ngIf="dimension.elements.length === 0">
           <td *ngFor="let attribute of dimension.attributes">
             <i>any</i>
           </td>
         </tr>
-        <tr *ngFor="let element of elements">
+        <tr *ngFor="let element of dimension.elements">
           <td *ngFor="let attribute of dimension.attributes">
-            <div *ngIf="element[attribute.id]; let value">
+            <div *ngIf="element.values[attribute.id]; let value">
               <div *ngIf="attribute.dtype === 'date'">
                 {{ value.start }} - {{ value.end }}
               </div>
@@ -47,9 +50,12 @@
               </div>
             </div>
 
-            <p *ngIf="!element[attribute.id]">
-              <i>Any</i>
+            <p *ngIf="!element.values[attribute.id]">
+              <i>error</i>
             </p>
+          </td>
+          <td>
+            <button class="btn btn-danger float-right">X</button>
           </td>
         </tr>
         <tr>

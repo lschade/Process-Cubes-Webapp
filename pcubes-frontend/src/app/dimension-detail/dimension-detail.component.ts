@@ -17,8 +17,6 @@ export class DimensionDetailComponent implements OnInit {
 
   pcs: PCS;
 
-  elements = [];
-  isCollapsed = true;
   values = {};
 
   constructor(private route: ActivatedRoute,
@@ -30,30 +28,28 @@ export class DimensionDetailComponent implements OnInit {
     const pcsId = +this.route.snapshot.paramMap.get('pcs_id');
     const dimId = +this.route.snapshot.paramMap.get('dim_id');
 
-    this.pcsService.getDimension(dimId).subscribe(dimension => {
-      this.dimension = dimension;
+    // check if data is available
+    if (history.state.hasOwnProperty('data')) {
+      this.dimension = history.state.data.dimension;
+      console.log(this.dimension);
+    }
 
-      for (const element of dimension.elements) {
-        const elementObj = {};
-        for (const elementValue of element.values) {
-          elementObj[elementValue.attribute] = elementValue.impl;
-        }
+    if (this.dimension === undefined) {
+      this.pcsService.getDimension(dimId).subscribe(dimension => {
+        this.dimension = dimension;
+        console.log(this.dimension);
+      });
+    }
 
-        this.elements.push(elementObj);
-      }
-      // this.elements = dimension.elements;
-      console.log(this.elements);
-    });
   }
 
   addElement() {
-    this.pcsService.addDimensionElement(this.dimension, Object.values(this.values)).subscribe(element => {
-      const elementObj = {};
-      for (const elementValue of element.values) {
-        elementObj[elementValue.attribute] = elementValue.impl;
-      }
+    console.log(this.values);
 
-      this.elements.push(elementObj);
+    this.pcsService.addDimensionElement(this.dimension, Object.values(this.values)).subscribe(element => {
+      this.dimension.elements.push(element);
+    }, error => {
+      console.log(error);
     });
   }
 

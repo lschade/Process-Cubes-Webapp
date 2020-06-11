@@ -43,7 +43,7 @@
           <td *ngFor="let attribute of dimension.attributes">
             <div *ngIf="element.values[attribute.id]; let value">
               <div *ngIf="attribute.dtype === 'date'">
-                {{ value.start }} - {{ value.end }}
+                {{ value.startDate }} - {{ value.endDate }}
               </div>
               <div *ngIf="attribute.dtype === 'float'">
                 {{ value.lower }} - {{ value.upper }}

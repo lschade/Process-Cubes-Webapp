@@ -1,6 +1,9 @@
 package de.luuuke.pcubes.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -21,13 +24,15 @@ public class Dimension {
   private String name;
 
   @ManyToOne
+  @JsonIgnoreProperties("dimensions")
   private ProcessCubeStructure processCubeStructure;
 
-  @OneToMany
-  private Set<DimensionAttribute> attributes;
+  @OneToMany(mappedBy = "dimension", cascade = CascadeType.ALL)
+  @JsonIgnoreProperties("dimension")
+  private Set<DimensionAttribute> attributes = new HashSet<>();
 
-  @OneToMany
-  private Set<DimensionElement> elements;
+  @OneToMany(mappedBy = "dimension", cascade = CascadeType.ALL)
+  private Set<DimensionElement> elements = new HashSet<>();
 
   public Long getId() {
     return id;

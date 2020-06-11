@@ -1,6 +1,7 @@
 package de.luuuke.pcubes.models;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,7 +15,7 @@ public class DimensionElement {
   private Dimension dimension;
 
   @OneToMany
-  private Set<DimensionElementValue> values;
+  private Set<DimensionElementValue> values = new HashSet<>();
 
   public Long getId() {
     return id;

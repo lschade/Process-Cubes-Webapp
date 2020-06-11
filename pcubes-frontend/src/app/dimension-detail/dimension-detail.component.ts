@@ -44,8 +44,6 @@ export class DimensionDetailComponent implements OnInit {
   }
 
   addElement() {
-    console.log(this.values);
-
     this.pcsService.addDimensionElement(this.dimension, Object.values(this.values)).subscribe(element => {
       this.dimension.elements.push(element);
     }, error => {

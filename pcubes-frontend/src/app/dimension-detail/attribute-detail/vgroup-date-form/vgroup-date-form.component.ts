@@ -23,8 +23,8 @@ export class VgroupDateFormComponent implements OnInit {
   }
 
   submit() {
-    const vgroupDate = new VgroupDate(this.attribute, this.dateStart, this.dateEnd);
-    this.pcsService.addValueGroupDate(vgroupDate).subscribe(value => {
+    const vgroupDate = new VgroupDate(this.dateStart, this.dateEnd);
+    this.pcsService.addValueGroupDate(this.attribute.id, vgroupDate).subscribe(value => {
       this.attribute.values.push(value);
     });
   }

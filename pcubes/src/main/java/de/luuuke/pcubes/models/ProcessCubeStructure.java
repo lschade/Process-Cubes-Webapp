@@ -1,9 +1,6 @@
 package de.luuuke.pcubes.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +13,7 @@ public class ProcessCubeStructure {
 
   private String name;
 
-  @OneToMany
+  @OneToMany(mappedBy = "processCubeStructure", cascade = CascadeType.ALL)
   private List<Dimension> dimensions = new ArrayList<>();
 
   public Long getId() {

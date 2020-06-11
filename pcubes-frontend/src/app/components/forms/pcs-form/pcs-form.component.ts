@@ -18,7 +18,6 @@ export class PcsFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.name);
     this.data.createCubeStructure(this.name).subscribe(value => console.log(value));
   }
 

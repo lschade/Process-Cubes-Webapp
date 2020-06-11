@@ -1,45 +1,47 @@
 package de.luuuke.pcubes.controller;
 
 import de.luuuke.pcubes.models.Dimension;
-import de.luuuke.pcubes.models.ProcessCubeStructure;
+import de.luuuke.pcubes.models.DimensionAttribute;
+import de.luuuke.pcubes.repositories.DimensionAttributeRepository;
 import de.luuuke.pcubes.repositories.DimensionRepository;
-import de.luuuke.pcubes.repositories.ProcessCubeStructureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/pcs/{pcsId}/dimensions")
-public class DimensionController {
+@RequestMapping("/dimensions")
+public class DimensionController extends BasicController<Dimension> {
 
-    private DimensionRepository dimensionRepository;
+  private DimensionAttributeRepository dimensionAttributeRepository;
 
-    private ProcessCubeStructureRepository pcsRepository;
+  @Autowired
+  public DimensionController(DimensionRepository repository,
+                             DimensionAttributeRepository dimensionAttributeRepository) {
+    super(repository);
+    this.dimensionAttributeRepository = dimensionAttributeRepository;
+  }
 
-
-    @Autowired
-    public DimensionController(DimensionRepository repository, ProcessCubeStructureRepository pcsRepository) {
-        this.dimensionRepository = repository;
-        this.pcsRepository = pcsRepository;
+  @PostMapping("/{dimId}/attributes")
+  public ResponseEntity<DimensionAttribute> addAttribute(@PathVariable Long dimId, @RequestBody DimensionAttribute attribute) {
+    Optional<Dimension> dimension = this.getRepository().findById(dimId);
+    if (!dimension.isPresent()) {
+      return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("")
-    public List<Dimension> getAll(@PathVariable Long pcsId) {
-        return this.dimensionRepository.findByProcessCubeStructureId(pcsId);
-    }
+    DimensionAttribute dimensionAttribute = new DimensionAttribute(
+        attribute.getName(),
+        attribute.getDtype(),
+        dimension.get());
 
-    @PostMapping("")
-    public ResponseEntity<Dimension> post(@PathVariable Long pcsId, @RequestBody Dimension obj) {
-        Optional<ProcessCubeStructure> maybePcs = this.pcsRepository.findById(pcsId);
-        if(!maybePcs.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
+    DimensionAttribute saved = dimensionAttributeRepository.save(dimensionAttribute);
 
-        Dimension dimension = new Dimension(obj.getName(), maybePcs.get());
-        return ResponseEntity.ok(dimensionRepository.save(dimension));
-    }
+    return ResponseEntity.ok(saved);
+  }
+
 }

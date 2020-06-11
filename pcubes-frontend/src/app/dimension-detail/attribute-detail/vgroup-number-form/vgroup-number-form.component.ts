@@ -23,8 +23,8 @@ export class VgroupNumberFormComponent implements OnInit {
   }
 
   submit() {
-    const vgroup = new VgroupNumber(this.attribute, this.lower, this.upper);
-    this.pcsService.addValueGroupNumber(vgroup).subscribe(value => {
+    const vgroup = new VgroupNumber(this.lower, this.upper);
+    this.pcsService.addValueGroupNumber(this.attribute.id, vgroup).subscribe(value => {
       this.attribute.values.push(value);
     }, error => {
       console.log(error);

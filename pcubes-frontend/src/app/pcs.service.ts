@@ -50,10 +50,11 @@ export class PcsService {
   }
 
   addDimension(pcs: PCS, name: string): Observable<Dimension> {
-    return this.http.post<Dimension>('/api/dimensions/', {cube: pcs.id, name});
+    return this.http.post<Dimension>(`/api/pcs/${pcs.id}/dimensions`, new Dimension(name, []));
   }
 
   addAttribute(dimension: Dimension, attr: DimensionAttribute): Observable<DimensionAttribute> {
+    console.log(attr);
     return this.http.post<DimensionAttribute>(`/api/dimensions/${dimension.id}/attributes/`, {name: attr.name, dtype: attr.dtype});
   }
 
@@ -69,31 +70,29 @@ export class PcsService {
     return this.http.get<Dimension>(`/api/dimensions/${id}`);
   }
 
-  addValueGroupDate(vgroup: VgroupDate): Observable<VgroupDate> {
+  addValueGroupDate(attributeId: number, vgroup: VgroupDate): Observable<VgroupDate> {
 
-    console.log(vgroup.start.toString());
-    console.log(vgroup.start.toDateString());
-    console.log(vgroup.start.toISOString());
-    console.log(vgroup.start.toTimeString());
+    console.log(vgroup.startDate.toString());
+    console.log(vgroup.startDate.toDateString());
+    console.log(vgroup.startDate.toISOString());
+    console.log(vgroup.startDate.toTimeString());
 
 
-    return this.http.post<VgroupDate>('/api/vgroup_date/', {
-      attribute: vgroup.attribute.id,
-      start: vgroup.start.toISOString(),
-      end: vgroup.end.toISOString()
+    return this.http.post<VgroupDate>(`/api/dimension_attribute/${attributeId}/vgroup_date/`, {
+      vgroup
     });
   }
 
-  addValueGroupNumber(vgroup: VgroupNumber): Observable<VgroupNumber> {
-    return this.http.post<VgroupNumber>('/api/vgroup_number/', {
-      attribute: vgroup.attribute.id,
-      upper: vgroup.upper,
-      lower: vgroup.lower
-    });
+  addValueGroupNumber(attributeId: number, vgroup: VgroupNumber): Observable<VgroupNumber> {
+    console.log(vgroup);
+    return this.http.post<VgroupNumber>(`/api/dimension_attribute/${attributeId}/vgroup_number/`, 
+      vgroup
+    );
   }
 
   addDimensionElement(dimension: Dimension, values: (string | number)[]) {
-    return this.http.post<DimensionElement>('/api/dimension_element/', {dimension: dimension.id, values});
+    console.log(values);
+    return this.http.post<DimensionElement>(`/api/dimension/${dimension.id}/elements`, {dimension: dimension.id, values});
   }
 
 }

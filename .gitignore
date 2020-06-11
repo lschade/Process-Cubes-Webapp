@@ -350,3 +350,6 @@ MailHog
 {%- endif %}
 
 *.sqlite3
+pcubes/data.trace.db
+
+pcubes/data.mv.db

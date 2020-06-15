@@ -7,6 +7,7 @@ import {Dimension} from './models/dimension';
 import {VgroupDate} from './dimension-detail/attribute-detail/vgroup-date-form/vgroup-date';
 import {VgroupNumber} from './dimension-detail/attribute-detail/vgroup-number-form/vgroup-number';
 import {DimensionElement} from './dimension-detail/dimension-element';
+import { VgroupCategorical } from './dimension-detail/attribute-detail/vgroup-categorical-form/vgroup-categorical';
 
 @Injectable({
   providedIn: 'root'
@@ -71,24 +72,21 @@ export class PcsService {
   }
 
   addValueGroupDate(attributeId: number, vgroup: VgroupDate): Observable<VgroupDate> {
-
-    console.log(vgroup.startDate.toString());
-    console.log(vgroup.startDate.toDateString());
-    console.log(vgroup.startDate.toISOString());
-    console.log(vgroup.startDate.toTimeString());
-
-
-    return this.http.post<VgroupDate>(`/api/dimension_attribute/${attributeId}/vgroup_date/`, {
-      vgroup
-    });
+    return this.http.post<VgroupDate>(`/api/dimension_attribute/${attributeId}/vgroup_date/`, vgroup);
   }
 
   addValueGroupNumber(attributeId: number, vgroup: VgroupNumber): Observable<VgroupNumber> {
-    console.log(vgroup);
     return this.http.post<VgroupNumber>(`/api/dimension_attribute/${attributeId}/vgroup_number/`, 
       vgroup
     );
   }
+
+  addValueGroupCategorical(attributeId: number, vgroup: VgroupCategorical): Observable<VgroupCategorical> {
+    return this.http.post<VgroupCategorical>(`/api/dimension_attribute/${attributeId}/vgroup_categorical/`, 
+      vgroup
+    );
+  }
+
 
   addDimensionElement(dimension: Dimension, values: (string | number)[]) {
     console.log(values);

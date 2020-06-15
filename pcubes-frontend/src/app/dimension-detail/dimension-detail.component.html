@@ -65,7 +65,7 @@
                       [name]="attribute.name">
                 <option *ngFor="let value of attribute.values" [value]="value.id">
                   <div *ngIf="attribute.dtype === 'date'">
-                    {{ value.start.toISOString() }} - {{ value.end.toISOString() }}
+                    {{ value.startDate.toISOString() }} - {{ value.startDate.toISOString() }}
                   </div>
                   <div *ngIf="attribute.dtype === 'float'">
                     {{ value.lower }} - {{ value.upper }}

@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DimensionAttribute} from '../../../models/dimension-attribute';
+import { PcsService } from 'src/app/pcs.service';
+import { VgroupCategorical } from './vgroup-categorical';
 
 @Component({
   selector: 'app-vgroup-categorical-form',
@@ -11,9 +13,24 @@ export class VgroupCategoricalFormComponent implements OnInit {
   @Input()
   attribute: DimensionAttribute;
 
-  constructor() { }
+  values: string;
+
+  constructor(private pcsService: PcsService) { }
 
   ngOnInit() {
+  }
+
+  submit() {
+    const values = this.values.split(",").map(v => v.trim());
+    
+    this.pcsService.addValueGroupCategorical(
+      this.attribute.id, new VgroupCategorical(values))
+      .subscribe(value => {
+        this.attribute.values.push(value);
+        this.values = "";
+      }, error => {
+        console.log(error);
+      });
   }
 
 }

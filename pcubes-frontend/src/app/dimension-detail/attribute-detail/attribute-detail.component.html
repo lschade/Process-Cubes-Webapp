@@ -25,6 +25,7 @@
         <li class="list-group-item" *ngFor="let value of attribute.values">
           <app-vgroup-date [value]="value" *ngIf="attribute.dtype === 'date'"></app-vgroup-date>
           <app-vgroup-number [value]="value" *ngIf="attribute.dtype === 'float'"></app-vgroup-number>
+          <app-vgroup-categorical [value]="value" *ngIf="attribute.dtype === 'str'"></app-vgroup-categorical>
         </li>
       </ul>
     </div>

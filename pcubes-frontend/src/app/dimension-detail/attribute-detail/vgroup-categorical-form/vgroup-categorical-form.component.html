@@ -1,1 +1,17 @@
-<p>vgroup-categorical-form works!</p>
+<form class="form-inline" (ngSubmit)="submit()" #form="ngForm">
+    <div class="col">
+      <textarea
+        type="text"
+        class="form-control"
+        placeholder="Values"
+        [(ngModel)]="values"
+        name="values"
+        required>
+      </textarea>
+    </div>
+  
+    <div class="col-xs">
+      <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Add</button>
+    </div>
+  </form>
+  

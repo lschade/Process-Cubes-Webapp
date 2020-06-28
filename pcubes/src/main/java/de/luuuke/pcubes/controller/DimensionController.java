@@ -65,6 +65,7 @@ public class DimensionController extends BasicController<Dimension> {
 
     DimensionElement dimensionElement = new DimensionElement();
     dimensionElement.setDimension(dimension.get());
+    dimensionElement = dimensionElementRepository.save(dimensionElement);
 
     for (DimensionAttribute attribute : attributes) {
       Long valueId = attributeValueMappings.get(attribute.getId());
@@ -86,14 +87,12 @@ public class DimensionController extends BasicController<Dimension> {
         return ResponseEntity.notFound().build();
       }
 
-      DimensionElementValue dimensionElementValue = new DimensionElementValue(attribute, value.get());
+      DimensionElementValue dimensionElementValue = new DimensionElementValue(dimensionElement, attribute, value.get());
       dimensionElementValue = dimensionElementValueRepository.save(dimensionElementValue);
       dimensionElement.addValue(dimensionElementValue);
     }
 
-    DimensionElement saved = dimensionElementRepository.save(dimensionElement);
-
-    return ResponseEntity.ok(saved);
+    return ResponseEntity.ok(dimensionElement);
   }
 
   @DeleteMapping("/{dimId}/elements/{elementId}")

@@ -18,7 +18,7 @@ public class DimensionElement {
   @ManyToOne
   private Dimension dimension;
 
-  @OneToMany
+  @OneToMany(mappedBy = "dimensionElement", cascade = CascadeType.ALL)
   @JsonIgnoreProperties("dimensionElement")
   private Set<DimensionElementValue> values = new HashSet<>();
 

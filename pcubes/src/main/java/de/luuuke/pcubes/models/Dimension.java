@@ -32,6 +32,7 @@ public class Dimension {
   private Set<DimensionAttribute> attributes = new HashSet<>();
 
   @OneToMany(mappedBy = "dimension", cascade = CascadeType.ALL)
+  @JsonIgnoreProperties("dimension")
   private Set<DimensionElement> elements = new HashSet<>();
 
   public Long getId() {

@@ -88,9 +88,13 @@ export class PcsService {
   }
 
 
-  addDimensionElement(dimension: Dimension, values: (string | number)[]) {
+  addDimensionElement(dimension: Dimension, values: { [attribute: number]: number; }) {
     console.log(values);
-    return this.http.post<DimensionElement>(`/api/dimension/${dimension.id}/elements`, {dimension: dimension.id, values});
+    return this.http.post<DimensionElement>(`/api/dimensions/${dimension.id}/elements`, values);
+  }
+
+  deleteDimensionElement(dimensionid: number, elementId: number) {
+    return this.http.delete(`/api/dimensions/${dimensionid}/elements/${elementId}`);
   }
 
 }

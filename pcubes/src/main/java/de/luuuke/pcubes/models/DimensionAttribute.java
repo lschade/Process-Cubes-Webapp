@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class DimensionAttribute {
+public class DimensionAttribute extends BaseObject {
 
   @Id
   @GeneratedValue

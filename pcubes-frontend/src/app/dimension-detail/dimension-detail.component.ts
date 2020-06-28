@@ -5,6 +5,7 @@ import {PcsService} from '../pcs.service';
 import {PCS} from '../models/pcs';
 import {DimensionAttribute} from '../models/dimension-attribute';
 import {filter} from 'rxjs/operators';
+import { ValueGroup, DimensionElement } from './dimension-element';
 
 @Component({
   selector: 'app-dimension-detail',
@@ -17,7 +18,7 @@ export class DimensionDetailComponent implements OnInit {
 
   pcs: PCS;
 
-  values = {};
+  values: { [attribute: number]: number; } = {};
 
   constructor(private route: ActivatedRoute,
               private pcsService: PcsService,
@@ -25,7 +26,6 @@ export class DimensionDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    const pcsId = +this.route.snapshot.paramMap.get('pcs_id');
     const dimId = +this.route.snapshot.paramMap.get('dim_id');
 
     // check if data is available
@@ -44,11 +44,25 @@ export class DimensionDetailComponent implements OnInit {
   }
 
   addElement() {
-    this.pcsService.addDimensionElement(this.dimension, Object.values(this.values)).subscribe(element => {
+    console.log(this.values);
+
+    this.pcsService.addDimensionElement(this.dimension, this.values).subscribe(element => {
       this.dimension.elements.push(element);
     }, error => {
       console.log(error);
     });
+  }
+
+  deleteElement(element: DimensionElement) {
+    this.pcsService.deleteDimensionElement(this.dimension.id, element.id).subscribe(value => {
+      console.log(value);
+      const index = this.dimension.elements.indexOf(element, 0);
+      if (index > -1) {
+        this.dimension.elements.splice(index, 1);
+      }
+    }, error => {
+      console.log(error);
+    })
   }
 
   attributeDeleted(attribute: DimensionAttribute) {

@@ -12,9 +12,9 @@ public class Dimension {
   public Dimension() {
   }
 
-  public Dimension(String name, ProcessCubeStructure processCubeStructure) {
+  public Dimension(String name, CubeStructure cubeStructure) {
     this.name = name;
-    this.processCubeStructure = processCubeStructure;
+    this.cubeStructure = cubeStructure;
   }
 
   @Id
@@ -25,7 +25,7 @@ public class Dimension {
 
   @ManyToOne
   @JsonIgnoreProperties("dimensions")
-  private ProcessCubeStructure processCubeStructure;
+  private CubeStructure cubeStructure;
 
   @OneToMany(mappedBy = "dimension", cascade = CascadeType.ALL)
   @JsonIgnoreProperties("dimension")
@@ -42,8 +42,8 @@ public class Dimension {
     return name;
   }
 
-  public ProcessCubeStructure getProcessCubeStructure() {
-    return processCubeStructure;
+  public CubeStructure getCubeStructure() {
+    return cubeStructure;
   }
 
   public Set<DimensionAttribute> getAttributes() {

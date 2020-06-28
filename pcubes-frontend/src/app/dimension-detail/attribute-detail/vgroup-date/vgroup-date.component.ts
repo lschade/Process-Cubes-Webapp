@@ -14,8 +14,8 @@ export class VgroupDateComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.value.start = new Date(this.value.start);
-    this.value.end = new Date(this.value.end);
+    this.value.startDate = new Date(this.value.startDate);
+    this.value.endDate = new Date(this.value.endDate);
   }
 
 }

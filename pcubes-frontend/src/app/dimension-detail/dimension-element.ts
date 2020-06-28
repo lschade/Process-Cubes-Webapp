@@ -10,10 +10,4 @@ export class DimensionElement {
 export class ValueGroup {
   public id: number;
   public attribute: number;
-
-  public impl: {
-    id: number;
-    attribute: number;
-    dtype: string;
-  };
 }

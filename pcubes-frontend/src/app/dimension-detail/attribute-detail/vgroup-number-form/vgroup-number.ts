@@ -2,8 +2,9 @@ import {DimensionAttribute} from '../../../models/dimension-attribute';
 
 export class VgroupNumber {
 
+  public attribute: DimensionAttribute;
+  
   constructor(
-    public attribute: DimensionAttribute,
     public lower: number,
     public upper: number) {
 

@@ -30,7 +30,8 @@ public class DimensionElementValue {
   public DimensionElementValue() {
   }
 
-  public DimensionElementValue(DimensionAttribute attribute, ValueGroup value) {
+  public DimensionElementValue(DimensionElement dimensionElement, DimensionAttribute attribute, ValueGroup value) {
+    this.dimensionElement = dimensionElement;
     this.dimensionAttribute = attribute;
     this.value = value;
   }

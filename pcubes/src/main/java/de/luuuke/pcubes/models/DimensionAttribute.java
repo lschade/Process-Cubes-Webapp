@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class DimensionAttribute extends BaseObject implements Serializable {
+public class DimensionAttribute extends BaseObject implements Serializable, Comparable<DimensionAttribute> {
 
   @Id
   @GeneratedValue
@@ -24,7 +24,7 @@ public class DimensionAttribute extends BaseObject implements Serializable {
 
   @OneToMany(mappedBy = "attribute", cascade = CascadeType.ALL)
   @JsonIgnoreProperties("attribute")
-  private Set<ValueGroup> values = new HashSet<>();
+  private final Set<ValueGroup> values = new HashSet<>();
 
   public DimensionAttribute() {
   }
@@ -53,5 +53,10 @@ public class DimensionAttribute extends BaseObject implements Serializable {
 
   public Set<ValueGroup> getValues() {
     return values;
+  }
+
+  @Override
+  public int compareTo(DimensionAttribute o) {
+    return this.getCreatedAt().compareTo(o.getCreatedAt());
   }
 }

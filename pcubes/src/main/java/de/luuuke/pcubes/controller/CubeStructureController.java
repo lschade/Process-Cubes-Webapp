@@ -1,7 +1,7 @@
 package de.luuuke.pcubes.controller;
 
+import de.luuuke.pcubes.models.CubeStructure;
 import de.luuuke.pcubes.models.Dimension;
-import de.luuuke.pcubes.models.ProcessCubeStructure;
 import de.luuuke.pcubes.repositories.DimensionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -14,25 +14,25 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/pcs")
-public class ProcessCubeStructureController extends BasicController<ProcessCubeStructure> {
+public class CubeStructureController extends BasicController<CubeStructure> {
 
   private DimensionRepository dimensionRepository;
 
   @Autowired
-  public ProcessCubeStructureController(CrudRepository<ProcessCubeStructure, Long> repository, DimensionRepository dimensionRepository) {
+  public CubeStructureController(CrudRepository<CubeStructure, Long> repository, DimensionRepository dimensionRepository) {
     super(repository);
     this.dimensionRepository = dimensionRepository;
   }
 
   @GetMapping("/{pcsId}/dimensions")
   public ResponseEntity<List<Dimension>> getDimensions(@PathVariable Long pcsId) {
-    List<Dimension> byProcessCubeStructureId = this.dimensionRepository.findByProcessCubeStructureId(pcsId);
+    List<Dimension> byProcessCubeStructureId = this.dimensionRepository.findByCubeStructureId(pcsId);
     return ResponseEntity.ok(byProcessCubeStructureId);
   }
 
   @PostMapping("/{pcsId}/dimensions")
   public ResponseEntity<Dimension> addDimension(@PathVariable Long pcsId, @RequestBody Dimension dim) {
-    Optional<ProcessCubeStructure> maybePcs = this.getRepository().findById(pcsId);
+    Optional<CubeStructure> maybePcs = this.getRepository().findById(pcsId);
     if (!maybePcs.isPresent()) {
       return ResponseEntity.notFound().build();
     }

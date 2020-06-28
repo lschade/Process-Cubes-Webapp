@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface DimensionRepository extends CrudRepository<Dimension, Long> {
 
-    List<Dimension>  findByProcessCubeStructureId(Long id);
+  List<Dimension> findByCubeStructureId(Long id);
 
 }

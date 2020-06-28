@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class ProcessCubeStructure {
+public class CubeStructure {
 
   @Id
   @GeneratedValue
@@ -13,7 +13,7 @@ public class ProcessCubeStructure {
 
   private String name;
 
-  @OneToMany(mappedBy = "processCubeStructure", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "cubeStructure", cascade = CascadeType.ALL)
   private List<Dimension> dimensions = new ArrayList<>();
 
   public Long getId() {

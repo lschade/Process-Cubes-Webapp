@@ -1,5 +1,7 @@
 package de.luuuke.pcubes.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,6 +15,7 @@ public abstract class ValueGroup {
   private Long id;
 
   @ManyToOne
+  @JsonIgnoreProperties("values")
   private DimensionAttribute attribute;
 
   public ValueGroup() {

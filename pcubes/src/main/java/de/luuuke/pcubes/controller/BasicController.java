@@ -23,7 +23,7 @@ public abstract class BasicController<T> {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity delete(@PathVariable Long id) {
+  public ResponseEntity<T> delete(@PathVariable Long id) {
     repository.deleteById(id);
     return ResponseEntity.ok().build();
   }

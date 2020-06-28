@@ -43,19 +43,22 @@
           <td *ngFor="let attribute of dimension.attributes">
             <div *ngIf="element.values[attribute.id]; let value">
               <div *ngIf="attribute.dtype === 'date'">
-                {{ value.startDate }} - {{ value.endDate }}
+                {{ value.value.startDate }} - {{ value.value.endDate }}
               </div>
               <div *ngIf="attribute.dtype === 'float'">
-                {{ value.lower }} - {{ value.upper }}
+                {{ value.value.lower }} - {{ value.value.upper }}
+              </div>
+              <div *ngIf="attribute.dtype === 'str'">
+                {{ value.value.values }}
               </div>
             </div>
 
             <p *ngIf="!element.values[attribute.id]">
-              <i>error</i>
+              <i>any</i>
             </p>
           </td>
           <td>
-            <button class="btn btn-danger float-right">X</button>
+            <button class="btn btn-danger float-right" (click)="deleteElement(element)">X</button>
           </td>
         </tr>
         <tr>
@@ -63,12 +66,15 @@
             <form *ngIf="attribute.values.length > 0" (ngSubmit)="addElement()">
               <select class="form-control" [(ngModel)]="values[attribute.id]"
                       [name]="attribute.name">
-                <option *ngFor="let value of attribute.values" [value]="value.id">
+                <option *ngFor="let value of attribute.values" [ngValue]="value.id">
                   <div *ngIf="attribute.dtype === 'date'">
                     {{ value.startDate.toISOString() }} - {{ value.startDate.toISOString() }}
                   </div>
                   <div *ngIf="attribute.dtype === 'float'">
                     {{ value.lower }} - {{ value.upper }}
+                  </div>
+                  <div *ngIf="attribute.dtype === 'str'">
+                    {{ value.values }}
                   </div>
                 </option>
               </select>

@@ -29,11 +29,12 @@ public class Dimension {
 
   @OneToMany(mappedBy = "dimension", cascade = CascadeType.ALL)
   @JsonIgnoreProperties("dimension")
-  private Set<DimensionAttribute> attributes = new HashSet<>();
+  @OrderBy("createdAt ASC")
+  private final Set<DimensionAttribute> attributes = new HashSet<>();
 
   @OneToMany(mappedBy = "dimension", cascade = CascadeType.ALL)
   @JsonIgnoreProperties("dimension")
-  private Set<DimensionElement> elements = new HashSet<>();
+  private final Set<DimensionElement> elements = new HashSet<>();
 
   public Long getId() {
     return id;

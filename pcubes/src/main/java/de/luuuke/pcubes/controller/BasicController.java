@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 public abstract class BasicController<T> {
 
-  private CrudRepository<T, Long> repository;
+  private final CrudRepository<T, Long> repository;
 
   public BasicController(CrudRepository<T, Long> repository) {
     this.repository = repository;

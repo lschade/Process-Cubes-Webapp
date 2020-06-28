@@ -5,5 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface DimensionAttributeRepository extends CrudRepository<DimensionAttribute, Long> {
 
-//  Iterable<DimensionAttribute> findAllByOrderByCreatedAt(Iterable<Long> iterable);
+  Iterable<DimensionAttribute> findAllByOrderByCreatedAtAsc();
+
 }

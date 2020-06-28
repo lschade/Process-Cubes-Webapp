@@ -1,13 +1,14 @@
 package de.luuuke.pcubes.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class DimensionAttribute extends BaseObject {
+public class DimensionAttribute extends BaseObject implements Serializable {
 
   @Id
   @GeneratedValue

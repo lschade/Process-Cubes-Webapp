@@ -3,9 +3,12 @@ package de.luuuke.pcubes.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class AttributeValue extends BaseEntity {
 
   @ManyToOne

@@ -1,13 +1,15 @@
 import {Injectable, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {PCS} from './models/pcs';
-import {ObjectUnsubscribedError, Observable, Subject} from 'rxjs';
+import {ObjectUnsubscribedError, Observable, Subject, throwError, of} from 'rxjs';
 import {DimensionAttribute} from './models/dimension-attribute';
 import {Dimension} from './models/dimension';
-import {VgroupDate} from './dimension-detail/attribute-detail/vgroup-date-form/vgroup-date';
-import {VgroupNumber} from './dimension-detail/attribute-detail/vgroup-number-form/vgroup-number';
+import {AttributeValueDate} from './dimension-detail/attribute-detail/attributeValue-date-form/attributeValue-date';
+import {AttributeValueNumber} from './dimension-detail/attribute-detail/attributeValue-number-form/attributeValue-number';
 import {DimensionElement} from './dimension-detail/dimension-element';
-import { VgroupCategorical } from './dimension-detail/attribute-detail/vgroup-categorical-form/vgroup-categorical';
+import { AttributeValueCategorical } from './dimension-detail/attribute-detail/attributeValue-categorical-form/attributeValue-categorical';
+import { catchError, map, tap } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,8 @@ export class PcsService {
 
   public pcss: PCS[];
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private toastr: ToastrService) {
     this.getAllPCS().subscribe(value => this.pcss = value);
   }
 
@@ -71,19 +74,27 @@ export class PcsService {
     return this.http.get<Dimension>(`/api/dimensions/${id}`);
   }
 
-  addAttributeValueDate(attributeId: number, vgroup: VgroupDate): Observable<VgroupDate> {
-    return this.http.post<VgroupDate>(`/api/dimension_attribute/${attributeId}/vgroup_date/`, vgroup);
-  }
-
-  addAttributeValueNumber(attributeId: number, vgroup: VgroupNumber): Observable<VgroupNumber> {
-    return this.http.post<VgroupNumber>(`/api/dimension_attribute/${attributeId}/vgroup_number/`,
-      vgroup
+  addAttributeValueDate(attributeId: number, attributeValue: AttributeValueDate): Observable<AttributeValueDate> {
+    return this.http.post<AttributeValueDate>(`/api/attribute_value/${attributeId}/date/`, attributeValue
+    ).pipe(
+      catchError(error => this.handleError(error))
     );
   }
 
-  addAttributeValueCategorical(attributeId: number, vgroup: VgroupCategorical): Observable<VgroupCategorical> {
-    return this.http.post<VgroupCategorical>(`/api/dimension_attribute/${attributeId}/vgroup_categorical/`,
-      vgroup
+  addAttributeValueNumber(attributeId: number, attributeValue: AttributeValueNumber): Observable<AttributeValueNumber> {
+    console.log("test");
+    return this.http.post<AttributeValueNumber>(`/api/attribute_value/${attributeId}/number/`,
+      attributeValue
+    ).pipe(
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  addAttributeValueCategorical(attributeId: number, attributeValue: AttributeValueCategorical): Observable<AttributeValueCategorical> {
+    return this.http.post<AttributeValueCategorical>(`/api/attribute_value/${attributeId}/categorical/`,
+      attributeValue
+    ).pipe(
+      catchError(error => this.handleError(error))
     );
   }
 
@@ -96,6 +107,12 @@ export class PcsService {
   deleteDimensionElement(dimensionid: number, elementId: number) {
     return this.http.delete(`/api/dimensions/${dimensionid}/elements/${elementId}`);
   }
+
+  private handleError<T>(error: HttpErrorResponse) {
+      this.toastr.error(error.message, "Error", {timeOut: 5000});
+      return throwError(
+        'Something bad happened; please try again later.');
+    }
 
 }
 

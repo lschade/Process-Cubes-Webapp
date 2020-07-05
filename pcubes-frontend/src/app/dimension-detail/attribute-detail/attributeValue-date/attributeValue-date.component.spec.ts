@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VgroupNumberFormComponent } from './vgroup-number-form.component';
+import { AttributeValueDateComponent } from './attributeValue-date.component';
 
-describe('VgroupNumberFormComponent', () => {
-  let component: VgroupNumberFormComponent;
-  let fixture: ComponentFixture<VgroupNumberFormComponent>;
+describe('AttributeValueDateComponent', () => {
+  let component: AttributeValueDateComponent;
+  let fixture: ComponentFixture<AttributeValueDateComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VgroupNumberFormComponent ]
+      declarations: [ AttributeValueDateComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VgroupNumberFormComponent);
+    fixture = TestBed.createComponent(AttributeValueDateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

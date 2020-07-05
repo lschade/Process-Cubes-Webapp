@@ -1,6 +1,6 @@
 import { DimensionAttribute } from 'src/app/models/dimension-attribute';
 
-export class VgroupCategorical {
+export class AttributeValueCategorical {
 
     public attribute: DimensionAttribute;
 

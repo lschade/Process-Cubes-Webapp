@@ -2,9 +2,6 @@ package de.luuuke.pcubes.controller;
 
 import de.luuuke.pcubes.models.DimensionAttribute;
 import de.luuuke.pcubes.models.DimensionElementValue;
-import de.luuuke.pcubes.models.AttributeValueCategorical;
-import de.luuuke.pcubes.models.AttributeValueDate;
-import de.luuuke.pcubes.models.AttributeValueNumber;
 import de.luuuke.pcubes.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -13,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Optional;
@@ -68,43 +63,4 @@ public class DimensionAttributeController extends BasicController<DimensionAttri
   }
 
 
-
-  @PostMapping("{attrId}/vgroup_number")
-  public ResponseEntity<AttributeValueNumber> addVGroupNumber(@PathVariable Long attrId,
-                                                              @RequestBody AttributeValueNumber attributeValueNumber) {
-    Optional<DimensionAttribute> attribute = dimensionAttributeRepository.findById(attrId);
-    if (attribute.isEmpty()) {
-      return ResponseEntity.notFound().build();
-    }
-
-    attributeValueNumber = new AttributeValueNumber(attribute.get(), attributeValueNumber.getLower(), attributeValueNumber.getUpper());
-    AttributeValueNumber saved = attributeValueNumberRepository.save(attributeValueNumber);
-    return ResponseEntity.ok(saved);
-  }
-
-  @PostMapping("{attrId}/vgroup_categorical")
-  public ResponseEntity<AttributeValueCategorical> addVGroupCategorical(@PathVariable Long attrId,
-                                                                        @RequestBody AttributeValueCategorical attributeValueCategorical) {
-    Optional<DimensionAttribute> attribute = dimensionAttributeRepository.findById(attrId);
-    if (attribute.isEmpty()) {
-      return ResponseEntity.notFound().build();
-    }
-
-    attributeValueCategorical = new AttributeValueCategorical(attribute.get(), attributeValueCategorical.getValues());
-    AttributeValueCategorical saved = attributeValueCategoricalRepository.save(attributeValueCategorical);
-    return ResponseEntity.ok(saved);
-  }
-
-  @PostMapping("{attrId}/vgroup_date")
-  public ResponseEntity<AttributeValueDate> addVGroupDate(@PathVariable Long attrId,
-                                                          @RequestBody AttributeValueDate attributeValueDate) {
-    Optional<DimensionAttribute> attribute = dimensionAttributeRepository.findById(attrId);
-    if (attribute.isEmpty()) {
-      return ResponseEntity.notFound().build();
-    }
-
-    attributeValueDate = new AttributeValueDate(attribute.get(), attributeValueDate.getStartDate(), attributeValueDate.getEndDate());
-    AttributeValueDate saved = attributeValueDateRepository.save(attributeValueDate);
-    return ResponseEntity.ok(saved);
-  }
 }

@@ -25,14 +25,15 @@ import {DimensionDetailComponent} from './dimension-detail/dimension-detail.comp
 import {AttributesListComponent} from './components/attributes-list/attributes-list.component';
 import {AttributeDetailComponent} from './dimension-detail/attribute-detail/attribute-detail.component';
 import {AttributeFormComponent} from './components/attribute-form/attribute-form.component';
-import {VgroupNumberFormComponent} from './dimension-detail/attribute-detail/vgroup-number-form/vgroup-number-form.component';
-import {VgroupDateFormComponent} from './dimension-detail/attribute-detail/vgroup-date-form/vgroup-date-form.component';
-import {VgroupCategoricalFormComponent} from './dimension-detail/attribute-detail/vgroup-categorical-form/vgroup-categorical-form.component';
-import {VgroupDateComponent} from './dimension-detail/attribute-detail/vgroup-date/vgroup-date.component';
-import { VgroupNumberComponent } from './dimension-detail/attribute-detail/vgroup-number/vgroup-number.component';
+import {AttributeValueNumberFormComponent} from './dimension-detail/attribute-detail/attributeValue-number-form/attributeValue-number-form.component';
+import {AttributeValueDateFormComponent} from './dimension-detail/attribute-detail/attributeValue-date-form/attributeValue-date-form.component';
+import {AttributeValueCategoricalFormComponent} from './dimension-detail/attribute-detail/attributeValue-categorical-form/attributeValue-categorical-form.component';
+import {AttributeValueDateComponent} from './dimension-detail/attribute-detail/attributeValue-date/attributeValue-date.component';
+import { AttributeValueNumberComponent } from './dimension-detail/attribute-detail/attributeValue-number/attributeValue-number.component';
 import { FileUploadFormComponent } from './components/forms/file-upload-form/file-upload-form.component';
 import { DimensionElementComponent } from './dimension-detail/dimension-element/dimension-element.component';
-import { VgroupCategoricalComponent } from './dimension-detail/attribute-detail/vgroup-categorical/vgroup-categorical.component';
+import { AttributeValueCategoricalComponent } from './dimension-detail/attribute-detail/attributeValue-categorical/attributeValue-categorical.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -48,15 +49,15 @@ import { VgroupCategoricalComponent } from './dimension-detail/attribute-detail/
     AttributesListComponent,
     AttributeDetailComponent,
     AttributeFormComponent,
-    VgroupNumberFormComponent,
-    VgroupDateFormComponent,
-    VgroupCategoricalFormComponent,
-    VgroupDateFormComponent,
-    VgroupDateComponent,
-    VgroupNumberComponent,
+    AttributeValueNumberFormComponent,
+    AttributeValueDateFormComponent,
+    AttributeValueCategoricalFormComponent,
+    AttributeValueDateFormComponent,
+    AttributeValueDateComponent,
+    AttributeValueNumberComponent,
     FileUploadFormComponent,
     DimensionElementComponent,
-    VgroupCategoricalComponent
+    AttributeValueCategoricalComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +69,8 @@ import { VgroupCategoricalComponent } from './dimension-detail/attribute-detail/
     ModalModule.forRoot(),
     CollapseModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

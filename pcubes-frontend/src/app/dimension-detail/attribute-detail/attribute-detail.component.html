@@ -17,15 +17,15 @@
     <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" class="py-1">
       <ul class="list-group border">
         <li class="list-group-item">
-          <app-vgroup-categorical-form [attribute]="attribute"
-                                       *ngIf="attribute.dtype === 'str'"></app-vgroup-categorical-form>
-          <app-vgroup-number-form [attribute]="attribute" *ngIf="attribute.dtype === 'float'"></app-vgroup-number-form>
-          <app-vgroup-date-form [attribute]="attribute" *ngIf="attribute.dtype === 'date'"></app-vgroup-date-form>
+          <app-attributeValue-categorical-form [attribute]="attribute"
+                                       *ngIf="attribute.dtype === 'str'"></app-attributeValue-categorical-form>
+          <app-attributeValue-number-form [attribute]="attribute" *ngIf="attribute.dtype === 'float'"></app-attributeValue-number-form>
+          <app-attributeValue-date-form [attribute]="attribute" *ngIf="attribute.dtype === 'date'"></app-attributeValue-date-form>
         </li>
         <li class="list-group-item" *ngFor="let value of attribute.values">
-          <app-vgroup-date [value]="value" *ngIf="attribute.dtype === 'date'"></app-vgroup-date>
-          <app-vgroup-number [value]="value" *ngIf="attribute.dtype === 'float'"></app-vgroup-number>
-          <app-vgroup-categorical [value]="value" *ngIf="attribute.dtype === 'str'"></app-vgroup-categorical>
+          <app-attributeValue-date [value]="value" *ngIf="attribute.dtype === 'date'"></app-attributeValue-date>
+          <app-attributeValue-number [value]="value" *ngIf="attribute.dtype === 'float'"></app-attributeValue-number>
+          <app-attributeValue-categorical [value]="value" *ngIf="attribute.dtype === 'str'"></app-attributeValue-categorical>
         </li>
       </ul>
     </div>

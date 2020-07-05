@@ -1,13 +1,15 @@
 package de.luuuke.pcubes.models;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
 import java.util.Set;
 
 @Entity
 public class AttributeValueCategorical extends AttributeValue {
 
   @ElementCollection
-  @CollectionTable(name = "attribute_value_categorical_values", joinColumns = @JoinColumn(name = "attribute_value_id"))
+//  @CollectionTable(name = "attribute_value_categorical_values", joinColumns = @JoinColumn(name = "attribute_value_id"))
   @Column(name = "value_set")
   private Set<String> values;
 

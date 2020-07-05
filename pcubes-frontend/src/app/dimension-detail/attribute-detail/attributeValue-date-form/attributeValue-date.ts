@@ -1,12 +1,11 @@
 import {DimensionAttribute} from '../../../models/dimension-attribute';
 
-export class VgroupNumber {
+export class AttributeValueDate {
 
   public attribute: DimensionAttribute;
-  
-  constructor(
-    public lower: number,
-    public upper: number) {
 
+  constructor(
+    public startDate: Date,
+    public endDate: Date) {
   }
 }

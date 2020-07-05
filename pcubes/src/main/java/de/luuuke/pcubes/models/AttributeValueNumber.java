@@ -1,8 +1,12 @@
 package de.luuuke.pcubes.models;
 
+
 import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"lower", "upper"})})
 public class AttributeValueNumber extends AttributeValue {
 
   private double lower;

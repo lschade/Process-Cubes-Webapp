@@ -1,6 +1,6 @@
 package de.luuuke.pcubes.repositories;
 
-import de.luuuke.pcubes.models.Dimension;
+import de.luuuke.pcubes.models.cube.structure.Dimension;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

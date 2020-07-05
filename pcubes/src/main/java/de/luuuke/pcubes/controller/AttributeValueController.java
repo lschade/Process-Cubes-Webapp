@@ -1,13 +1,8 @@
 package de.luuuke.pcubes.controller;
 
-import de.luuuke.pcubes.models.AttributeValueCategorical;
-import de.luuuke.pcubes.models.AttributeValueDate;
-import de.luuuke.pcubes.models.AttributeValueNumber;
-import de.luuuke.pcubes.models.DimensionAttribute;
-import de.luuuke.pcubes.repositories.AttributeValueCategoricalRepository;
-import de.luuuke.pcubes.repositories.AttributeValueDateRepository;
-import de.luuuke.pcubes.repositories.AttributeValueNumberRepository;
-import de.luuuke.pcubes.repositories.DimensionAttributeRepository;
+import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,8 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Optional;
-import java.util.Set;
+import de.luuuke.pcubes.models.cube.structure.AttributeValueCategorical;
+import de.luuuke.pcubes.models.cube.structure.AttributeValueDate;
+import de.luuuke.pcubes.models.cube.structure.AttributeValueNumber;
+import de.luuuke.pcubes.models.cube.structure.DimensionAttribute;
+import de.luuuke.pcubes.repositories.AttributeValueCategoricalRepository;
+import de.luuuke.pcubes.repositories.AttributeValueDateRepository;
+import de.luuuke.pcubes.repositories.AttributeValueNumberRepository;
+import de.luuuke.pcubes.repositories.DimensionAttributeRepository;
 
 @Controller
 @RequestMapping("attribute_value")
@@ -32,7 +33,8 @@ public class AttributeValueController {
   @Autowired
   public AttributeValueController(AttributeValueNumberRepository attributeValueNumberRepository,
                                   AttributeValueCategoricalRepository attributeValueCategoricalRepository,
-                                  AttributeValueDateRepository attributeValueDateRepository, DimensionAttributeRepository dimensionAttributeRepository) {
+                                  AttributeValueDateRepository attributeValueDateRepository,
+                                  DimensionAttributeRepository dimensionAttributeRepository) {
     this.attributeValueNumberRepository = attributeValueNumberRepository;
     this.attributeValueCategoricalRepository = attributeValueCategoricalRepository;
     this.attributeValueDateRepository = attributeValueDateRepository;

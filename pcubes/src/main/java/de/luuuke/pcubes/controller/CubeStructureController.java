@@ -1,7 +1,7 @@
 package de.luuuke.pcubes.controller;
 
-import de.luuuke.pcubes.models.CubeStructure;
-import de.luuuke.pcubes.models.Dimension;
+import de.luuuke.pcubes.models.cube.structure.CubeStructure;
+import de.luuuke.pcubes.models.cube.structure.Dimension;
 import de.luuuke.pcubes.repositories.DimensionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;

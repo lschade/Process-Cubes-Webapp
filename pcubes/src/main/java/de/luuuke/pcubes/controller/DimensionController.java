@@ -1,6 +1,10 @@
 package de.luuuke.pcubes.controller;
 
-import de.luuuke.pcubes.models.*;
+import de.luuuke.pcubes.models.cube.structure.AttributeValue;
+import de.luuuke.pcubes.models.cube.structure.Dimension;
+import de.luuuke.pcubes.models.cube.structure.DimensionAttribute;
+import de.luuuke.pcubes.models.cube.structure.DimensionElement;
+import de.luuuke.pcubes.models.cube.structure.DimensionElementValue;
 import de.luuuke.pcubes.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +50,7 @@ public class DimensionController extends BasicController<Dimension> {
 
     DimensionAttribute dimensionAttribute = new DimensionAttribute(
         attribute.getName(),
-        attribute.getDtype(),
+        attribute.getDataType(),
         dimension.get());
 
     DimensionAttribute saved = dimensionAttributeRepository.save(dimensionAttribute);
@@ -71,14 +75,14 @@ public class DimensionController extends BasicController<Dimension> {
       Long valueId = attributeValueMappings.get(attribute.getId());
 
       Optional<? extends AttributeValue> value = Optional.empty();
-      switch (attribute.getDtype()) {
-        case "str":
+      switch (attribute.getDataType()) {
+        case CATEGORICAL:
           value = attributeValueCategoricalRepository.findById(valueId);
           break;
-        case "float":
+        case NUMBER:
           value = attributeValueNumberRepository.findById(valueId);
           break;
-        case "date":
+        case DATE:
           value = attributeValueDateRepository.findById(valueId);
           break;
       }

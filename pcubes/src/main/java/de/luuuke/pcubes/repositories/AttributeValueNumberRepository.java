@@ -1,6 +1,6 @@
 package de.luuuke.pcubes.repositories;
 
-import de.luuuke.pcubes.models.AttributeValueNumber;
+import de.luuuke.pcubes.models.cube.structure.AttributeValueNumber;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Set;

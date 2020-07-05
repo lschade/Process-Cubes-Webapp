@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>11</java.version>
+        <plugin.prettier.goal>write</plugin.prettier.goal>
     </properties>
 
     <dependencies>
@@ -84,6 +85,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.hubspot.maven.plugins</groupId>
+                <artifactId>prettier-maven-plugin</artifactId>
+                <!-- Find the latest version at https://github.com/jhipster/prettier-java/releases -->
+                <version>0.9-SNAPSHOT</version>
             </plugin>
         </plugins>
     </build>

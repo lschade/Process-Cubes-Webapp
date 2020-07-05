@@ -1,6 +1,7 @@
-package de.luuuke.pcubes.models;
+package de.luuuke.pcubes.models.cube.structure;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import de.luuuke.pcubes.models.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;

@@ -1,11 +1,10 @@
-package de.luuuke.pcubes.models;
+package de.luuuke.pcubes.models.cube.structure;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import de.luuuke.pcubes.models.BaseEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity

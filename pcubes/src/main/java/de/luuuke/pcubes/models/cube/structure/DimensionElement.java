@@ -1,7 +1,8 @@
-package de.luuuke.pcubes.models;
+package de.luuuke.pcubes.models.cube.structure;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.collect.ImmutableMap;
+import de.luuuke.pcubes.models.BaseEntity;
 
 import javax.persistence.*;
 import java.util.HashSet;

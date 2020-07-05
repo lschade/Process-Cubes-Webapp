@@ -1,5 +1,8 @@
-package de.luuuke.pcubes.models.cube.mapping;
+package de.luuuke.pcubes.models.data;
 
+import javax.persistence.Entity;
+
+@Entity
 public class CSVDataAttribute extends DataAttribute {
 
   private String columnName;

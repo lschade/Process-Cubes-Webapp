@@ -1,4 +1,4 @@
-package de.luuuke.pcubes.models;
+package de.luuuke.pcubes.models.cube.structure;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;

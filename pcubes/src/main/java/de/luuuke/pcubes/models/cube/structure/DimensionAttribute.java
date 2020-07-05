@@ -1,18 +1,22 @@
-package de.luuuke.pcubes.models;
+package de.luuuke.pcubes.models.cube.structure;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
-
-import javax.persistence.*;
+import de.luuuke.pcubes.models.BaseEntity;
+import de.luuuke.pcubes.models.DataType;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.*;
+import javax.xml.crypto.Data;
+import javax.xml.datatype.DatatypeConfigurationException;
 
 @Entity
-public class DimensionAttribute extends BaseEntity implements Comparable<DimensionAttribute> {
-
+public class DimensionAttribute
+  extends BaseEntity
+  implements Comparable<DimensionAttribute> {
   private String name;
 
-  private String dtype;
+  @Enumerated(EnumType.STRING)
+  private DataType dataType;
 
   @ManyToOne
   @JsonIgnoreProperties("attributes")
@@ -22,12 +26,15 @@ public class DimensionAttribute extends BaseEntity implements Comparable<Dimensi
   @JsonIgnoreProperties("attribute")
   private final Set<AttributeValue> values = new HashSet<>();
 
-  public DimensionAttribute() {
-  }
+  public DimensionAttribute() {}
 
-  public DimensionAttribute(String name, String dtype, Dimension dimension) {
+  public DimensionAttribute(
+    String name,
+    DataType dataType,
+    Dimension dimension
+  ) {
     this.name = name;
-    this.dtype = dtype;
+    this.dataType = dataType;
     this.dimension = dimension;
   }
 
@@ -35,8 +42,8 @@ public class DimensionAttribute extends BaseEntity implements Comparable<Dimensi
     return name;
   }
 
-  public String getDtype() {
-    return dtype;
+  public DataType getDataType() {
+    return dataType;
   }
 
   public Dimension getDimension() {

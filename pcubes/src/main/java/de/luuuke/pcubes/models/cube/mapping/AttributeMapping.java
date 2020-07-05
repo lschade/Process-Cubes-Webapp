@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class AttributeAttributeMapping extends BaseEntity {
+public class AttributeMapping extends BaseEntity {
   @ManyToOne
   private DimensionAttribute dimensionAttribute;
 

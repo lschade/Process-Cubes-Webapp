@@ -1,4 +1,4 @@
-package de.luuuke.pcubes.models;
+package de.luuuke.pcubes.models.cube.structure;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

@@ -14,24 +14,24 @@ import java.util.Optional;
 @RequestMapping("/dimensions")
 public class DimensionController extends BasicController<Dimension> {
 
-  private final ValueGroupNumberRepository valueGroupNumberRepository;
-  private final ValueGroupCategoricalRepository valueGroupCategoricalRepository;
-  private final ValueGroupDateRepository valueGroupDateRepository;
+  private final AttributeValueNumberRepository attributeValueNumberRepository;
+  private final AttributeValueCategoricalRepository attributeValueCategoricalRepository;
+  private final AttributeValueDateRepository attributeValueDateRepository;
   private final DimensionAttributeRepository dimensionAttributeRepository;
   private final DimensionElementRepository dimensionElementRepository;
   private final DimensionElementValueRepository dimensionElementValueRepository;
 
   @Autowired
   public DimensionController(DimensionRepository repository,
-                             ValueGroupNumberRepository valueGroupNumberRepository,
-                             ValueGroupCategoricalRepository valueGroupCategoricalRepository,
-                             ValueGroupDateRepository valueGroupDateRepository,
+                             AttributeValueNumberRepository attributeValueNumberRepository,
+                             AttributeValueCategoricalRepository attributeValueCategoricalRepository,
+                             AttributeValueDateRepository attributeValueDateRepository,
                              DimensionAttributeRepository dimensionAttributeRepository,
                              DimensionElementRepository dimensionElementRepository, DimensionElementValueRepository dimensionElementValueRepository) {
     super(repository);
-    this.valueGroupNumberRepository = valueGroupNumberRepository;
-    this.valueGroupCategoricalRepository = valueGroupCategoricalRepository;
-    this.valueGroupDateRepository = valueGroupDateRepository;
+    this.attributeValueNumberRepository = attributeValueNumberRepository;
+    this.attributeValueCategoricalRepository = attributeValueCategoricalRepository;
+    this.attributeValueDateRepository = attributeValueDateRepository;
     this.dimensionAttributeRepository = dimensionAttributeRepository;
     this.dimensionElementRepository = dimensionElementRepository;
     this.dimensionElementValueRepository = dimensionElementValueRepository;
@@ -70,16 +70,16 @@ public class DimensionController extends BasicController<Dimension> {
     for (DimensionAttribute attribute : attributes) {
       Long valueId = attributeValueMappings.get(attribute.getId());
 
-      Optional<? extends ValueGroup> value = Optional.empty();
+      Optional<? extends AttributeValue> value = Optional.empty();
       switch (attribute.getDtype()) {
         case "str":
-          value = valueGroupCategoricalRepository.findById(valueId);
+          value = attributeValueCategoricalRepository.findById(valueId);
           break;
         case "float":
-          value = valueGroupNumberRepository.findById(valueId);
+          value = attributeValueNumberRepository.findById(valueId);
           break;
         case "date":
-          value = valueGroupDateRepository.findById(valueId);
+          value = attributeValueDateRepository.findById(valueId);
           break;
       }
 

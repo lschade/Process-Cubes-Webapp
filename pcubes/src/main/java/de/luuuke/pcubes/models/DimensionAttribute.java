@@ -8,11 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class DimensionAttribute extends BaseObject implements Serializable, Comparable<DimensionAttribute> {
-
-  @Id
-  @GeneratedValue
-  private Long id;
+public class DimensionAttribute extends BaseEntity implements Comparable<DimensionAttribute> {
 
   private String name;
 
@@ -24,7 +20,7 @@ public class DimensionAttribute extends BaseObject implements Serializable, Comp
 
   @OneToMany(mappedBy = "attribute", cascade = CascadeType.ALL)
   @JsonIgnoreProperties("attribute")
-  private final Set<ValueGroup> values = new HashSet<>();
+  private final Set<AttributeValue> values = new HashSet<>();
 
   public DimensionAttribute() {
   }
@@ -33,10 +29,6 @@ public class DimensionAttribute extends BaseObject implements Serializable, Comp
     this.name = name;
     this.dtype = dtype;
     this.dimension = dimension;
-  }
-
-  public Long getId() {
-    return id;
   }
 
   public String getName() {
@@ -51,7 +43,7 @@ public class DimensionAttribute extends BaseObject implements Serializable, Comp
     return dimension;
   }
 
-  public Set<ValueGroup> getValues() {
+  public Set<AttributeValue> getValues() {
     return values;
   }
 

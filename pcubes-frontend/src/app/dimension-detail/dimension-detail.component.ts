@@ -5,7 +5,7 @@ import {PcsService} from '../pcs.service';
 import {PCS} from '../models/pcs';
 import {DimensionAttribute} from '../models/dimension-attribute';
 import {filter} from 'rxjs/operators';
-import { ValueGroup, DimensionElement } from './dimension-element';
+import { AttributeValue, DimensionElement } from './dimension-element';
 
 @Component({
   selector: 'app-dimension-detail',

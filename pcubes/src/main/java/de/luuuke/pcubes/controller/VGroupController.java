@@ -1,8 +1,8 @@
 package de.luuuke.pcubes.controller;
 
-import de.luuuke.pcubes.models.ValueGroupCategorical;
-import de.luuuke.pcubes.models.ValueGroupDate;
-import de.luuuke.pcubes.models.ValueGroupNumber;
+import de.luuuke.pcubes.models.AttributeValueCategorical;
+import de.luuuke.pcubes.models.AttributeValueDate;
+import de.luuuke.pcubes.models.AttributeValueNumber;
 import de.luuuke.pcubes.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,41 +14,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("")
 public class VGroupController {
 
-  private ValueGroupNumberRepository valueGroupNumberRepository;
-  private ValueGroupCategoricalRepository valueGroupCategoricalRepository;
-  private ValueGroupDateRepository valueGroupDateRepository;
-  private ValueGroupRepository valueGroupRepository;
-  private DimensionAttributeRepository dimensionAttributeRepository;
+  private final AttributeValueNumberRepository attributeValueNumberRepository;
+  private final AttributeValueCategoricalRepository attributeValueCategoricalRepository;
+  private final AttributeValueDateRepository attributeValueDateRepository;
 
 
   @Autowired
-  public VGroupController(ValueGroupNumberRepository valueGroupNumberRepository,
-                          ValueGroupCategoricalRepository valueGroupCategoricalRepository,
-                          ValueGroupDateRepository valueGroupDateRepository,
-                          ValueGroupRepository valueGroupRepository,
-                          DimensionAttributeRepository dimensionAttributeRepository) {
-    this.valueGroupNumberRepository = valueGroupNumberRepository;
-    this.valueGroupCategoricalRepository = valueGroupCategoricalRepository;
-    this.valueGroupDateRepository = valueGroupDateRepository;
-    this.valueGroupRepository = valueGroupRepository;
-    this.dimensionAttributeRepository = dimensionAttributeRepository;
+  public VGroupController(AttributeValueNumberRepository attributeValueNumberRepository,
+                          AttributeValueCategoricalRepository attributeValueCategoricalRepository,
+                          AttributeValueDateRepository attributeValueDateRepository) {
+    this.attributeValueNumberRepository = attributeValueNumberRepository;
+    this.attributeValueCategoricalRepository = attributeValueCategoricalRepository;
+    this.attributeValueDateRepository = attributeValueDateRepository;
   }
 
   @PostMapping("vgroup_number")
-  public ResponseEntity<ValueGroupNumber> addVGroupNumber(ValueGroupNumber valueGroupNumber) {
-    ValueGroupNumber saved = valueGroupNumberRepository.save(valueGroupNumber);
+  public ResponseEntity<AttributeValueNumber> addVGroupNumber(AttributeValueNumber attributeValueNumber) {
+    AttributeValueNumber saved = attributeValueNumberRepository.save(attributeValueNumber);
     return ResponseEntity.ok(saved);
   }
 
   @PostMapping("vgroup_categorical")
-  public ResponseEntity<ValueGroupCategorical> addVGroupCategorical(ValueGroupCategorical valueGroupCategorical) {
-    ValueGroupCategorical saved = valueGroupCategoricalRepository.save(valueGroupCategorical);
+  public ResponseEntity<AttributeValueCategorical> addVGroupCategorical(AttributeValueCategorical attributeValueCategorical) {
+    AttributeValueCategorical saved = attributeValueCategoricalRepository.save(attributeValueCategorical);
     return ResponseEntity.ok(saved);
   }
 
   @PostMapping("vgroup_date")
-  public ResponseEntity<ValueGroupDate> addVGroupDate(ValueGroupDate valueGroupDate) {
-    ValueGroupDate saved = valueGroupDateRepository.save(valueGroupDate);
+  public ResponseEntity<AttributeValueDate> addVGroupDate(AttributeValueDate attributeValueDate) {
+    AttributeValueDate saved = attributeValueDateRepository.save(attributeValueDate);
     return ResponseEntity.ok(saved);
   }
 }

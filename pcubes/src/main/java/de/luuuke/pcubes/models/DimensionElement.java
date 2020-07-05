@@ -9,11 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Entity
-public class DimensionElement {
-
-  @Id
-  @GeneratedValue
-  private Long id;
+public class DimensionElement extends BaseEntity {
 
   @ManyToOne
   private Dimension dimension;
@@ -21,10 +17,6 @@ public class DimensionElement {
   @OneToMany(mappedBy = "dimensionElement", cascade = CascadeType.ALL)
   @JsonIgnoreProperties("dimensionElement")
   private Set<DimensionElementValue> values = new HashSet<>();
-
-  public Long getId() {
-    return id;
-  }
 
   public Dimension getDimension() {
     return dimension;

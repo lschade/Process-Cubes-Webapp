@@ -16,7 +16,7 @@ import java.util.Optional;
 @RequestMapping("/pcs")
 public class CubeStructureController extends BasicController<CubeStructure> {
 
-  private DimensionRepository dimensionRepository;
+  private final DimensionRepository dimensionRepository;
 
   @Autowired
   public CubeStructureController(CrudRepository<CubeStructure, Long> repository, DimensionRepository dimensionRepository) {
@@ -33,7 +33,7 @@ public class CubeStructureController extends BasicController<CubeStructure> {
   @PostMapping("/{pcsId}/dimensions")
   public ResponseEntity<Dimension> addDimension(@PathVariable Long pcsId, @RequestBody Dimension dim) {
     Optional<CubeStructure> maybePcs = this.getRepository().findById(pcsId);
-    if (!maybePcs.isPresent()) {
+    if (maybePcs.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
 

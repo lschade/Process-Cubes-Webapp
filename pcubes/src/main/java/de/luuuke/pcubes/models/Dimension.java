@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Dimension {
+public class Dimension extends BaseEntity {
 
   public Dimension() {
   }
@@ -16,10 +16,6 @@ public class Dimension {
     this.name = name;
     this.cubeStructure = cubeStructure;
   }
-
-  @Id
-  @GeneratedValue
-  private Long id;
 
   private String name;
 
@@ -35,10 +31,6 @@ public class Dimension {
   @OneToMany(mappedBy = "dimension", cascade = CascadeType.ALL)
   @JsonIgnoreProperties("dimension")
   private final Set<DimensionElement> elements = new HashSet<>();
-
-  public Long getId() {
-    return id;
-  }
 
   public String getName() {
     return name;

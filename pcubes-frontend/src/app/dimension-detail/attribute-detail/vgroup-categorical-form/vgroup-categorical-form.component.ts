@@ -22,8 +22,8 @@ export class VgroupCategoricalFormComponent implements OnInit {
 
   submit() {
     const values = this.values.split(",").map(v => v.trim());
-    
-    this.pcsService.addValueGroupCategorical(
+
+    this.pcsService.addAttributeValueCategorical(
       this.attribute.id, new VgroupCategorical(values))
       .subscribe(value => {
         this.attribute.values.push(value);

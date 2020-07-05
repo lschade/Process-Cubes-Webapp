@@ -9,11 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class DimensionElementValue {
-
-  @Id
-  @GeneratedValue
-  private Long id;
+public class DimensionElementValue extends BaseEntity {
 
   @ManyToOne
   @JsonIgnore
@@ -25,19 +21,15 @@ public class DimensionElementValue {
 
   @ManyToOne
   @JsonIgnoreProperties("attribute")
-  private ValueGroup value;
+  private AttributeValue value;
 
   public DimensionElementValue() {
   }
 
-  public DimensionElementValue(DimensionElement dimensionElement, DimensionAttribute attribute, ValueGroup value) {
+  public DimensionElementValue(DimensionElement dimensionElement, DimensionAttribute attribute, AttributeValue value) {
     this.dimensionElement = dimensionElement;
     this.dimensionAttribute = attribute;
     this.value = value;
-  }
-
-  public Long getId() {
-    return id;
   }
 
   public DimensionElement getDimensionElement() {
@@ -48,7 +40,7 @@ public class DimensionElementValue {
     return dimensionAttribute;
   }
 
-  public ValueGroup getValue() {
+  public AttributeValue getValue() {
     return value;
   }
 }

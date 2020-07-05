@@ -2,9 +2,9 @@ package de.luuuke.pcubes.controller;
 
 import de.luuuke.pcubes.models.DimensionAttribute;
 import de.luuuke.pcubes.models.DimensionElementValue;
-import de.luuuke.pcubes.models.ValueGroupCategorical;
-import de.luuuke.pcubes.models.ValueGroupDate;
-import de.luuuke.pcubes.models.ValueGroupNumber;
+import de.luuuke.pcubes.models.AttributeValueCategorical;
+import de.luuuke.pcubes.models.AttributeValueDate;
+import de.luuuke.pcubes.models.AttributeValueNumber;
 import de.luuuke.pcubes.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -23,29 +23,25 @@ import java.util.Optional;
 @RequestMapping("/dimension_attribute")
 public class DimensionAttributeController extends BasicController<DimensionAttribute> {
 
-  private ValueGroupNumberRepository valueGroupNumberRepository;
-  private ValueGroupCategoricalRepository valueGroupCategoricalRepository;
-  private ValueGroupDateRepository valueGroupDateRepository;
-  private ValueGroupRepository valueGroupRepository;
-  private DimensionAttributeRepository dimensionAttributeRepository;
-  private DimensionElementValueRepository dimensionElementValueRepository;
+  private final AttributeValueNumberRepository attributeValueNumberRepository;
+  private final AttributeValueCategoricalRepository attributeValueCategoricalRepository;
+  private final AttributeValueDateRepository attributeValueDateRepository;
+  private final DimensionAttributeRepository dimensionAttributeRepository;
+  private final DimensionElementValueRepository dimensionElementValueRepository;
 
   @Autowired
   public DimensionAttributeController(
-      ValueGroupNumberRepository valueGroupNumberRepository,
-      ValueGroupCategoricalRepository valueGroupCategoricalRepository,
-      ValueGroupDateRepository valueGroupDateRepository,
-      ValueGroupRepository valueGroupRepository,
+      AttributeValueNumberRepository attributeValueNumberRepository,
+      AttributeValueCategoricalRepository attributeValueCategoricalRepository,
+      AttributeValueDateRepository attributeValueDateRepository,
       DimensionAttributeRepository dimensionAttributeRepository,
       CrudRepository<DimensionAttribute, Long> repository, DimensionElementValueRepository dimensionElementValueRepository) {
     super(repository);
 
-    this.valueGroupNumberRepository = valueGroupNumberRepository;
-    this.valueGroupCategoricalRepository = valueGroupCategoricalRepository;
-    this.valueGroupDateRepository = valueGroupDateRepository;
-    this.valueGroupRepository = valueGroupRepository;
+    this.attributeValueNumberRepository = attributeValueNumberRepository;
+    this.attributeValueCategoricalRepository = attributeValueCategoricalRepository;
+    this.attributeValueDateRepository = attributeValueDateRepository;
     this.dimensionAttributeRepository = dimensionAttributeRepository;
-
     this.dimensionElementValueRepository = dimensionElementValueRepository;
   }
 
@@ -74,41 +70,41 @@ public class DimensionAttributeController extends BasicController<DimensionAttri
 
 
   @PostMapping("{attrId}/vgroup_number")
-  public ResponseEntity<ValueGroupNumber> addVGroupNumber(@PathVariable Long attrId,
-                                                          @RequestBody ValueGroupNumber valueGroupNumber) {
+  public ResponseEntity<AttributeValueNumber> addVGroupNumber(@PathVariable Long attrId,
+                                                              @RequestBody AttributeValueNumber attributeValueNumber) {
     Optional<DimensionAttribute> attribute = dimensionAttributeRepository.findById(attrId);
     if (attribute.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
 
-    valueGroupNumber = new ValueGroupNumber(attribute.get(), valueGroupNumber.getLower(), valueGroupNumber.getUpper());
-    ValueGroupNumber saved = valueGroupNumberRepository.save(valueGroupNumber);
+    attributeValueNumber = new AttributeValueNumber(attribute.get(), attributeValueNumber.getLower(), attributeValueNumber.getUpper());
+    AttributeValueNumber saved = attributeValueNumberRepository.save(attributeValueNumber);
     return ResponseEntity.ok(saved);
   }
 
   @PostMapping("{attrId}/vgroup_categorical")
-  public ResponseEntity<ValueGroupCategorical> addVGroupCategorical(@PathVariable Long attrId,
-                                                                    @RequestBody ValueGroupCategorical valueGroupCategorical) {
+  public ResponseEntity<AttributeValueCategorical> addVGroupCategorical(@PathVariable Long attrId,
+                                                                        @RequestBody AttributeValueCategorical attributeValueCategorical) {
     Optional<DimensionAttribute> attribute = dimensionAttributeRepository.findById(attrId);
     if (attribute.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
 
-    valueGroupCategorical = new ValueGroupCategorical(attribute.get(), valueGroupCategorical.getValues());
-    ValueGroupCategorical saved = valueGroupCategoricalRepository.save(valueGroupCategorical);
+    attributeValueCategorical = new AttributeValueCategorical(attribute.get(), attributeValueCategorical.getValues());
+    AttributeValueCategorical saved = attributeValueCategoricalRepository.save(attributeValueCategorical);
     return ResponseEntity.ok(saved);
   }
 
   @PostMapping("{attrId}/vgroup_date")
-  public ResponseEntity<ValueGroupDate> addVGroupDate(@PathVariable Long attrId,
-                                                      @RequestBody ValueGroupDate valueGroupDate) {
+  public ResponseEntity<AttributeValueDate> addVGroupDate(@PathVariable Long attrId,
+                                                          @RequestBody AttributeValueDate attributeValueDate) {
     Optional<DimensionAttribute> attribute = dimensionAttributeRepository.findById(attrId);
     if (attribute.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
 
-    valueGroupDate = new ValueGroupDate(attribute.get(), valueGroupDate.getStartDate(), valueGroupDate.getEndDate());
-    ValueGroupDate saved = valueGroupDateRepository.save(valueGroupDate);
+    attributeValueDate = new AttributeValueDate(attribute.get(), attributeValueDate.getStartDate(), attributeValueDate.getEndDate());
+    AttributeValueDate saved = attributeValueDateRepository.save(attributeValueDate);
     return ResponseEntity.ok(saved);
   }
 }

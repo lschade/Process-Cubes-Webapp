@@ -71,18 +71,18 @@ export class PcsService {
     return this.http.get<Dimension>(`/api/dimensions/${id}`);
   }
 
-  addValueGroupDate(attributeId: number, vgroup: VgroupDate): Observable<VgroupDate> {
+  addAttributeValueDate(attributeId: number, vgroup: VgroupDate): Observable<VgroupDate> {
     return this.http.post<VgroupDate>(`/api/dimension_attribute/${attributeId}/vgroup_date/`, vgroup);
   }
 
-  addValueGroupNumber(attributeId: number, vgroup: VgroupNumber): Observable<VgroupNumber> {
-    return this.http.post<VgroupNumber>(`/api/dimension_attribute/${attributeId}/vgroup_number/`, 
+  addAttributeValueNumber(attributeId: number, vgroup: VgroupNumber): Observable<VgroupNumber> {
+    return this.http.post<VgroupNumber>(`/api/dimension_attribute/${attributeId}/vgroup_number/`,
       vgroup
     );
   }
 
-  addValueGroupCategorical(attributeId: number, vgroup: VgroupCategorical): Observable<VgroupCategorical> {
-    return this.http.post<VgroupCategorical>(`/api/dimension_attribute/${attributeId}/vgroup_categorical/`, 
+  addAttributeValueCategorical(attributeId: number, vgroup: VgroupCategorical): Observable<VgroupCategorical> {
+    return this.http.post<VgroupCategorical>(`/api/dimension_attribute/${attributeId}/vgroup_categorical/`,
       vgroup
     );
   }

@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import java.util.Date;
 
 @Entity
-public class ValueGroupDate extends ValueGroup {
+public class AttributeValueDate extends AttributeValue {
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
   private Date startDate;
@@ -14,10 +14,10 @@ public class ValueGroupDate extends ValueGroup {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
   private Date endDate;
 
-  public ValueGroupDate() {
+  public AttributeValueDate() {
   }
 
-  public ValueGroupDate(DimensionAttribute attribute, Date startDate, Date endDate) {
+  public AttributeValueDate(DimensionAttribute attribute, Date startDate, Date endDate) {
     super(attribute);
     this.startDate = startDate;
     this.endDate = endDate;

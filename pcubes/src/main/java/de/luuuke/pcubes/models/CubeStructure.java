@@ -5,20 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class CubeStructure {
-
-  @Id
-  @GeneratedValue
-  private Long id;
+public class CubeStructure extends BaseEntity {
 
   private String name;
 
   @OneToMany(mappedBy = "cubeStructure", cascade = CascadeType.ALL)
-  private List<Dimension> dimensions = new ArrayList<>();
-
-  public Long getId() {
-    return id;
-  }
+  private final List<Dimension> dimensions = new ArrayList<>();
 
   public String getName() {
     return name;

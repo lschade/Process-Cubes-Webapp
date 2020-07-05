@@ -2,12 +2,12 @@ export class DimensionElement {
 
   public id: number;
   public dimension: number;
-  public values: ValueGroup[];
+  public values: AttributeValue[];
 
 
 }
 
-export class ValueGroup {
+export class AttributeValue {
   public id: number;
   public attribute: number;
 }

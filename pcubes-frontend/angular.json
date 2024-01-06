@@ -71,19 +71,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pcubes-frontend:build",
-            "proxyConfig": "proxy.conf.json"
+            "proxyConfig": "proxy.conf.json",
+            "buildTarget": "pcubes-frontend:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "pcubes-frontend:build:production"
+              "buildTarget": "pcubes-frontend:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pcubes-frontend:build"
+            "buildTarget": "pcubes-frontend:build"
           }
         },
         "test": {

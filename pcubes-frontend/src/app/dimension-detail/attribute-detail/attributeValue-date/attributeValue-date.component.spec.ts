@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AttributeValueDateComponent } from './attributeValue-date.component';
 
@@ -6,7 +6,7 @@ describe('AttributeValueDateComponent', () => {
   let component: AttributeValueDateComponent;
   let fixture: ComponentFixture<AttributeValueDateComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AttributeValueDateComponent ]
     })

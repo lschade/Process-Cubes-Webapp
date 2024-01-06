@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AttributeValueCategoricalFormComponent } from './attributeValue-categorical-form.component';
 
@@ -6,7 +6,7 @@ describe('AttributeValueCategoricalFormComponent', () => {
   let component: AttributeValueCategoricalFormComponent;
   let fixture: ComponentFixture<AttributeValueCategoricalFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AttributeValueCategoricalFormComponent ]
     })

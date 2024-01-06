@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AttributeValueNumberComponent } from './attributeValue-number.component';
 
@@ -6,7 +6,7 @@ describe('AttributeValueNumberComponent', () => {
   let component: AttributeValueNumberComponent;
   let fixture: ComponentFixture<AttributeValueNumberComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AttributeValueNumberComponent ]
     })

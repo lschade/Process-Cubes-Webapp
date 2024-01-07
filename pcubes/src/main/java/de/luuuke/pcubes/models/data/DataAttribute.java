@@ -1,13 +1,8 @@
 package de.luuuke.pcubes.models.data;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-
 import de.luuuke.pcubes.models.BaseEntity;
 import de.luuuke.pcubes.models.DataType;
+import jakarta.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

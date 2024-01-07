@@ -1,9 +1,9 @@
 package de.luuuke.pcubes.models.data;
 
-import java.util.Set;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import java.util.Set;
 
 @Entity
 public class CSVFile extends DataFile {

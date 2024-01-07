@@ -3,8 +3,8 @@ package de.luuuke.pcubes.models.cube.mapping;
 import de.luuuke.pcubes.models.BaseEntity;
 import de.luuuke.pcubes.models.cube.structure.DimensionAttribute;
 import de.luuuke.pcubes.models.data.DataAttribute;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class AttributeMapping extends BaseEntity {

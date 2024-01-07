@@ -2,8 +2,8 @@ package de.luuuke.pcubes.models.cube.structure;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.luuuke.pcubes.models.BaseEntity;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 

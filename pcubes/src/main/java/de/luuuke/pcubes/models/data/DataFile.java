@@ -1,10 +1,9 @@
 package de.luuuke.pcubes.models.data;
 
-import java.util.Set;
-
 import de.luuuke.pcubes.models.BaseEntity;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import jakarta.persistence.Entity;
+
+import java.util.Set;
 
 @Entity
 public abstract class DataFile extends BaseEntity {

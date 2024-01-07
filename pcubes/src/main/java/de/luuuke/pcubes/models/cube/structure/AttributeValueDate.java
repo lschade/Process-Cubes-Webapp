@@ -1,8 +1,8 @@
 package de.luuuke.pcubes.models.cube.structure;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Entity;
 
-import javax.persistence.Entity;
 import java.util.Date;
 
 @Entity

@@ -1,6 +1,6 @@
 package de.luuuke.pcubes.models.data;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 @Entity
 public class CSVDataAttribute extends DataAttribute {

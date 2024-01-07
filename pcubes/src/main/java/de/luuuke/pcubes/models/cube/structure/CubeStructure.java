@@ -1,10 +1,12 @@
 package de.luuuke.pcubes.models.cube.structure;
 
-import javax.persistence.*;
+import de.luuuke.pcubes.models.BaseEntity;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import de.luuuke.pcubes.models.BaseEntity;
 
 @Entity
 public class CubeStructure extends BaseEntity {

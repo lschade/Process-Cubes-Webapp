@@ -3,8 +3,11 @@ package de.luuuke.pcubes.models.cube.structure;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.collect.ImmutableMap;
 import de.luuuke.pcubes.models.BaseEntity;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
